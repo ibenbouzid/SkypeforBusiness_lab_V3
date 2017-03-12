@@ -1,0 +1,136 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "VMName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Name of the Load Balancer"
+      }
+    },
+    "DomainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The FQDN of the AD Domain created "
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Administrator of the new VM and Domain"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the Administrator account of the new VM and Domain"
+      }
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources such as templates and DSC modules that the script is dependent"
+      }
+    },
+    "_SfBshareLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of Skype Software: The Azure storage name"
+      }
+    },
+    "_SfBshareSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "The token to access the storage name location of Skype Software"
+      }
+    },
+    "StsServiceName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate"
+      }
+    },
+    "CertPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password of the pfx SSL certificate"
+      }
+    },
+    "ADFS_CA_Name": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your AD CS internal CA"
+      }
+    },
+    "PublicCert": {
+      "type": "bool",
+      "metadata": {
+        "description": "Is public Certificate to use"
+      }
+    }
+  },
+  "variables": {
+    "VM_DjoinTemplateUri": "[concat(parameters('_artifactsLocation'),'/nested/VM-ext-Domainjoin.json')]"
+  },
+  "resources": [
+    {
+      "name": "[concat('VM-ext-Domainjoin-ADFS')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('VM_DjoinTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VMName": {
+            "value": "[parameters('VMName')]"
+          },
+          "DomainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "AdminUserName": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "_artifactsLocation": {
+            "value": "[parameters('_artifactsLocation')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "[concat(parameters('VMName'), '/ADFS-Install')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments','VM-ext-Domainjoin-ADFS')]"
+      ],
+      "tags": {
+        "displayName": "ADFS-Install"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[concat(parameters('_artifactsLocation'), '/scripts/ADFS-Install.ps1')]",
+            "[concat(parameters('_artifactsLocation'), '/scripts/NewCertReq.ps1')]"
+          ]
+        },
+        "protectedsettings": {
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ADFS-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'),' -PublicCert ', parameters('PublicCert'))]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

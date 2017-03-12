@@ -30,12 +30,35 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="dsc\" />
-    <Folder Include="images\" />
-    <Folder Include="nested\" />
-    <Folder Include="scripts\" />
+    <None Include="dsc\CreateADDSCS.ps1" />
+    <None Include="dsc\CreateADDSCS.ps1.zip" />
+    <None Include="dsc\Prereqs.ps1" />
+    <None Include="dsc\Prereqs.ps1.zip" />
+    <None Include="images\FolderStructure.jpg" />
+    <None Include="images\SfB2016.jpg" />
+    <None Include="images\SfBServer2015.jpg" />
+    <None Include="nested\Shared.json" />
+    <None Include="nested\VM-deploy-EDGE.json" />
+    <None Include="nested\VM-deploy-WAP.json" />
+    <None Include="nested\VM-deploy.json" />
+    <None Include="nested\VM-ext-ADDSCS.json" />
+    <None Include="nested\VM-ext-ADFS.json" />
+    <None Include="nested\VM-ext-Diagnostics.json" />
+    <None Include="nested\VM-ext-Domainjoin.json" />
+    <None Include="nested\VM-ext-EDGE.json" />
+    <None Include="nested\VM-ext-SFBClient.json" />
+    <None Include="nested\VM-ext-SFBFE.json" />
+    <None Include="nested\VM-ext-WAP.json" />
+    <None Include="scripts\Add-ADUsers.ps1" />
+    <None Include="scripts\ADFS-Install.ps1" />
+    <None Include="scripts\DefaultTopology_Skype.xml" />
+    <None Include="scripts\EDGE-Install.ps1" />
+    <None Include="scripts\Enable-CsUsers.ps1" />
+    <None Include="scripts\New-ADUsers.csv" />
+    <None Include="scripts\NewCertReq.ps1" />
+    <None Include="scripts\SfB-Install.ps1" />
+    <None Include="scripts\Skype2016-Install.ps1" />
+    <None Include="scripts\WAP-Install.ps1" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

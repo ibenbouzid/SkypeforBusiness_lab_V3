@@ -1,0 +1,313 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "StorageAccountName": {
+      "type": "string",
+      "defaultValue": "[concat('store', uniqueString(resourceGroup().id))]",
+      "metadata": {
+        "description": "The Storage Account Name "
+      }
+    },
+    "StorageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "AvailabilitySetName": {
+      "type": "array",
+      "defaultValue": [ "AV1", "AV2" ]
+    },
+    "LoadBalancerName": {
+      "type": "array",
+      "metadata": {
+        "description": "The Name of the Load Balancer"
+      },
+      "defaultValue": [ "LB1", "LB2" ]
+    },
+    "LBFEConfig": {
+      "type": "string",
+      "metadata": {
+        "description": "The Front End Config of the Load Balancer"
+      },
+      "defaultValue": "LBFEName"
+    },
+    "LBBEPoolName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Back End Pool of the Load Balancer"
+      },
+      "defaultValue": "LBPName"
+    },
+    "DMZPublicIPName": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the Load Balancer"
+      },
+      "defaultValue": "DMZPublicIPName"
+    },
+    "PublicIPName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Front End Config of the Load Balancer"
+      },
+      "defaultValue": "PublicIPName"
+    },
+    "publicIPAddressType": {
+      "type": "string",
+      "allowedValues": [
+        "Dynamic",
+        "Static"
+      ],
+      "metadata": {
+        "description": "The type of the public IP address used by the Load Balancer"
+      },
+      "defaultValue": "Static"
+    },
+    "dnsPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+      }
+    },
+    "VnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Front End Config of the Load Balancer"
+      },
+      "defaultValue": "Vnet1"
+    },
+    "Vnet1Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the new VNET in CIDR format "
+      },
+      "defaultValue": "10.0.0.0/16"
+    },
+    "Vnet2Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the new VNET in CIDR format"
+      },
+      "defaultValue": "192.168.0.0/24"
+    },
+    "Subnet-INT-1": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD VM"
+      },
+      "defaultValue": "Subnet-INT-1"
+    },
+    "Subnet-DMZ-INT": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD VM"
+      },
+      "defaultValue": "Subnet-DMZ-INT"
+    },
+    "Subnet-DMZ-EXT": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD VM"
+      },
+      "defaultValue": "Subnet-DMZ-EXT"
+    },
+    "Subnet-INT-1-Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.0.0/24"
+    },
+    "Subnet-DMZ-INT-Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.1.0/24"
+    },
+    "Subnet-DMZ-EXT-Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.2.0/24"
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources such as templates and DSC modules that the script is dependent"
+      }
+    }
+  },
+  "variables": {
+    //"LBBEid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[1]),'/BackendAddressPools/',parameters('LBBEPoolName'))]",
+    //"LBNATid": "[concat(resourceId('Microsoft.Network/loadBalancers',parameters('LoadBalancerName')[1]),'/inboundNatRules/',parameters('LoadBalancerName')[0],'-RDP')]"
+    "DMZDNSPrefix": "[concat(parameters('dnsPrefix'),'dmz')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('StorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "StorageAccount"
+      },
+      "properties": {
+        "accountType": "[parameters('StorageAccountType')]"
+      }
+    },
+    {
+      "name": "[parameters('AvailabilitySetName')[copyIndex()]]",
+      "type": "Microsoft.Compute/availabilitySets",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "AvailabilitySets"
+      },
+      "copy": {
+        "name": "AVLoop",
+        "count": "[length(parameters('AvailabilitySetName'))]"
+      },
+      "properties": {
+        "platformUpdateDomainCount": 1,
+        "platformFaultDomainCount": 1
+      }
+    },
+    {
+      "name": "[parameters('VnetName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "Vnet1"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('Vnet1Prefix')]",
+            "[parameters('Vnet2Prefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('Subnet-INT-1')]",
+            "properties": {
+              "addressPrefix": "[parameters('Subnet-INT-1-Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('Subnet-DMZ-INT')]",
+            "properties": {
+              "addressPrefix": "[parameters('Subnet-DMZ-INT-Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('Subnet-DMZ-EXT')]",
+            "properties": {
+              "addressPrefix": "[parameters('Subnet-DMZ-EXT-Prefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "name": "[parameters('PublicIPName')]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsPrefix')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "name": "[parameters('DMZPublicIPName')]",
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('DMZDNSPrefix')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[parameters('LoadBalancerName')[0]]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPName'))]"
+      ],
+      "tags": {
+        "displayName": "LB-INT"
+      },
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[parameters('LBFEConfig')]",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPName'))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[parameters('LBBEPoolName')]"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[parameters('LoadBalancerName')[1]]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses',parameters('DMZPublicIPName'))]"
+      ],
+      "tags": {
+        "displayName": "LB-DMZ"
+      },
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[parameters('LBFEConfig')]",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('DMZPublicIPName'))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[parameters('LBBEPoolName')]"
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "DMZPublicIP": {
+      "value" : "[reference(concat('Microsoft.Network/publicIPAddresses/',parameters('DMZPublicIPName'))).ipAddress]", 
+      "type": "string"
+    }
+  }
+}
