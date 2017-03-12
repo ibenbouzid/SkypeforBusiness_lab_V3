@@ -161,23 +161,31 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 
 	###########################Install Freeswitch PSTN Gateway
-	$workingDir ='C:\Users\ibenbouzid'
+	#$workingDir ='C:\Users\ibenbouzid'
 	$Newconfig = 'C:\Program Files\FreeSWITCH\conf\freeswitch.xml'
-	$DomainName = "uctech.uk"
+	#$DomainName = "uctech.uk"
 	$FrontEnd = "VM-SFB-FE01"
 	$MediationTCPPort = "5068" 
-	$MediationFqdn = $FrontEnd+'.'+$DomainName+':'+$MediationTCPPort
+	$MediationFqdn = $FrontEnd+'.'+$_DomainName+':'+$MediationTCPPort
 	$IntIP = "10.0.0.7"
 	$ExtIP = "192.168.0.4" 
 	$PubIP = "13.81.4.228"
 
-	#install SMO
-	Start-Process -FilePath msiexec -ArgumentList /i, "C:\Users\ibenbouzid\FreeSWITCH.msi", /quiet -Wait
+	#Download Freeswitch from Storage account or from the web
+	copy-Item "G:\FreeSWITCH*.msi" -Destination FreeSWITCH.msi -ErrorAction Continue -Force
+	$ItemExists = Get-Item FreeSWITCH.msi -ErrorAction Continue
+	If (!$ItemExists) {
+		write "item do not exist"
+		Invoke-WebRequest -Uri http://files.freeswitch.org/windows_installer/installer/x64/FreeSWITCH-1.6.15-x64-Release.msi -OutFile FreeSWITCH.msi
+	}
+
+	#install Freeswitch
+	Start-Process -FilePath msiexec -ArgumentList /i, FreeSWITCH.msi, /quiet -Wait
 
 	#Remove the vannila config files
 	Remove-Item 'C:\Program Files\FreeSWITCH\conf\*' -Force -Recurse
 
-	#Populate parameters to the freeswitch.xml config file
+	#Create freeswitch.xml config and populate parameters to the file
 	$defaultconfig= $workingDir+ "\freeswitch.xml"
 	$xml = New-Object XML
 	$xml.Load($defaultconfig)
@@ -194,7 +202,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	netsh advfirewall firewall add rule name="Freeswitch5080" dir=in action=allow protocol=UDP localport=5080
 	#RTP ports
 	netsh advfirewall firewall add rule name="FreeswitchRTP" dir=in action=allow protocol=UDP localport=16000-16010
-
+	
+	#Start Freeswith service
+	Set-Service FreeSWITCH -StartupType Automatic
 	Start-Service FreeSWITCH
 
 
