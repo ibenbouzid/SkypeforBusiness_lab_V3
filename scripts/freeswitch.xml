@@ -259,12 +259,22 @@
           <!-- The example below demonstrates routing internal calls from non-Lync devices 
 					     such as Polycom conference phones back into Lync.  This allows a conference phone 
 						 to access internal extensions.  This example assumes three digit extensions inside of Lync -->
+          <extension name="RouteToInternal">
+            <condition field="destination_number" expression="^\+44118000(2\d{3})" break="on-true">
+              <action application="set" data="dialed_extension=$1" />
+              <action application="bridge" data="user/${dialed_extension}@$${internal-ip}" />
+            </condition>
+            <condition field="destination_number" expression="^(2\d{3})" break="on-true">
+              <action application="set" data="dialed_extension=$1" />
+              <action application="bridge" data="user/${dialed_extension}@$${internal-ip}" />
+            </condition>
+          </extension>
           <extension name="ExtensiontoSkype">
-            <condition field="destination_number" expression="^(\+|00)?(\d{10}\d+)$" break="on-true" >
+            <condition field="destination_number" expression="^(\+|00)?(\d{10}\d+)$" break="on-true">
               <action application="bridge" data="sofia/gateway/Skype/+$2" />
             </condition>
-            <condition field="destination_number" expression="^(\d{4})">
-              <action application="bridge" data="sofia/gateway/Skype/$1" />
+            <condition field="destination_number" expression="^(1\d{3})">
+              <action application="bridge" data="sofia/gateway/Skype/+44118000$1" />
             </condition>
           </extension>
         </include>
