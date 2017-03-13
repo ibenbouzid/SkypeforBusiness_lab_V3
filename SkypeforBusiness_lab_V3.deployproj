@@ -33,6 +33,8 @@
     </None>
     <None Include="dsc\CreateADDSCS.ps1" />
     <None Include="dsc\CreateADDSCS.ps1.zip" />
+    <None Include="dsc\DnsSuffix.ps1" />
+    <None Include="dsc\DnsSuffix.ps1.zip" />
     <None Include="dsc\Prereqs.ps1" />
     <None Include="dsc\Prereqs.ps1.zip" />
     <None Include="images\FolderStructure.jpg" />

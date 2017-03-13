@@ -15,6 +15,7 @@ Import-DscResource -ModuleName PSDesiredStateConfiguration,xActiveDirectory,xDis
 [PSCredential ]$DomainCreds = New-Object PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
 $Interface=Get-NetAdapter|Where Name -Like "Ethernet*"|Select-Object -First 1
 $InterfaceAlias=$($Interface.Name)
+$CAName =  $DomainName+'-CA'
 
 Node localhost
   { 
@@ -97,6 +98,7 @@ Node localhost
         {
             Ensure = 'Present'
             Credential = $DomainCreds
+            CACommonName = $CAName
             CAType = 'EnterpriseRootCA'
             DependsOn = '[WindowsFeature]ADCS-Cert-Authority', "[xADDomain]FirstDS"               
         }
