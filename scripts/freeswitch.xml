@@ -229,7 +229,7 @@
     <include>
       <context name="from_Skype">
         <extension name="RouteToInternal">
-          <condition field="destination_number" expression="^\+44123456(\d{4})" break="on-true">
+          <condition field="destination_number" expression="^\+44118000(2\d{3})" break="on-true">
             <action application="set" data="dialed_extension=$1"/>
             <action application="bridge" data="user/${dialed_extension}@$${internal-ip}"/>
           </condition>
@@ -291,16 +291,16 @@
       <groups>
         <group name="default">
           <users>
-            <user id="1000">
+            <user id="2000">
               <params>
-                <param name="password" value="1000"/>
-                <param name="vm-password" value="1000"/>
+                <param name="password" value="2000"/>
+                <param name="vm-password" value="2000"/>
               </params>
               <variables>
-                <variable name="accountcode" value="1000"/>
+                <variable name="accountcode" value="2000"/>
                 <variable name="user_context" value="from_Internal"/>
-                <variable name="effective_caller_id_name" value="Extension 1000"/>
-                <variable name="effective_caller_id_number" value="1000"/>
+                <variable name="effective_caller_id_name" value="Extension 2000"/>
+                <variable name="effective_caller_id_number" value="2000"/>
               </variables>
             </user>
           </users>

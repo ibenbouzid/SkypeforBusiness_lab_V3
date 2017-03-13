@@ -4,8 +4,8 @@
   </InternalDomains>
   <Sites>
     <CentralSite SiteId="1">
-      <Name>Corporate</Name>
-      <Location City="Redmond" State="WA" CountryCode="USA" />
+      <Name>TVP</Name>
+      <Location City="Reading" State="Berkshire" CountryCode="UK" />
     </CentralSite>
   </Sites>
   <Clusters>
