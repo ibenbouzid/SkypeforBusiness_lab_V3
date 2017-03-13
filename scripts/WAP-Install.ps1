@@ -78,7 +78,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		$_DomainName,
 		$_CAComputerName,
 		$_PublicCert,
-		$_MediationServName
+		$_MediationServName,
+		$_Username
     )
 
 
@@ -218,8 +219,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	################################################End Freeswitch PSTN gateway config
 
 	######Copy Xlite
-	$username = $_DomainCreds.UserName
-	copy-Item "G:\X-lite*.exe" -Destination C:\Users\$username\Desktop\X-lite.exe -ErrorAction Continue -Force
+	copy-Item "G:\X-Lite*.exe" -Destination C:\Users\$_Username\Desktop\X-Lite.exe -ErrorAction Continue -Force
 	
 	#unmount G drive
 	net use G: /d
@@ -229,7 +229,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
 	$pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool, $MediationServName
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool, $MediationServName, $Username
 
 	
 
