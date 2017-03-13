@@ -143,32 +143,32 @@
           <!-- Outbound gateway configuration
 					     Used by traffic which is flowing from your Lync server (and other internal VOIP devices) to your external VOIP provider -->
           <gateways>
-            <include>
-              <gateway name="sipgate">
+            <!--<include>
+                <gateway name="sipgate">
                 <param name="username" value="Myusername"/>
-                <!-- Enter the username for your VOIP provider if required -->
+                 Enter the username for your VOIP provider if required 
                 <param name="password" value="MyPassword"/>
-                <!-- Enter the password for your VOIP provider if required -->
+                 Enter the password for your VOIP provider if required 
                 <param name="caller-id-in-from" value="true"/>
                 <param name="proxy" value="sipgate.co.uk"/>
-                <!-- Enter the URL or IP for your VOIP provider -->
+                 Enter the URL or IP for your VOIP provider 
                 <param name="register-transport" value="udp"/>
                 <param name="expire-seconds" value="600"/>
-                <!-- default register timout 3600 change based on VOIP provider -->
+                 default register timout 3600 change based on VOIP provider 
               </gateway>
               <gateway name="actionvoip">
                 <param name="username" value="Mysusername2"/>
-                <!-- Enter the username for your VOIP provider if required -->
+                 Enter the username for your VOIP provider if required 
                 <param name="password" value="Mypassword2"/>
-                <!-- Enter the password for your VOIP provider if required -->
+                 Enter the password for your VOIP provider if required 
                 <param name="caller-id-in-from" value="true"/>
                 <param name="proxy" value="sip.actionvoip.com"/>
-                <!-- Enter the URL or IP for your VOIP provider -->
+                 Enter the URL or IP for your VOIP provider 
                 <param name="register-transport" value="udp"/>
                 <param name="expire-seconds" value="600"/>
-                <!-- default register timout 3600 change based on VOIP provider -->
+                 default register timout 3600 change based on VOIP provider 
               </gateway>
-            </include>
+            </include>-->
           </gateways>
           <settings>
             <param name="sip-trace" value="no" />
