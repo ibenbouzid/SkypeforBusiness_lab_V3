@@ -145,9 +145,9 @@
           <gateways>
             <include>
               <gateway name="sipgate">
-                <param name="username" value="2438361e0"/>
+                <param name="username" value="Myusername"/>
                 <!-- Enter the username for your VOIP provider if required -->
-                <param name="password" value="WsJBJp1bWrMX"/>
+                <param name="password" value="MyPassword"/>
                 <!-- Enter the password for your VOIP provider if required -->
                 <param name="caller-id-in-from" value="true"/>
                 <param name="proxy" value="sipgate.co.uk"/>
@@ -157,9 +157,9 @@
                 <!-- default register timout 3600 change based on VOIP provider -->
               </gateway>
               <gateway name="actionvoip">
-                <param name="username" value="ibenbouzid1"/>
+                <param name="username" value="Mysusername2"/>
                 <!-- Enter the username for your VOIP provider if required -->
-                <param name="password" value="passemot"/>
+                <param name="password" value="Mypassword2"/>
                 <!-- Enter the password for your VOIP provider if required -->
                 <param name="caller-id-in-from" value="true"/>
                 <param name="proxy" value="sip.actionvoip.com"/>
