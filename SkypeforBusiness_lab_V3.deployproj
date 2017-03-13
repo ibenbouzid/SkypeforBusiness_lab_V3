@@ -27,6 +27,7 @@
   <ItemGroup>
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
+    <None Include="azuredeploy.ps1" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
@@ -37,6 +38,7 @@
     <None Include="images\FolderStructure.jpg" />
     <None Include="images\SfB2016.jpg" />
     <None Include="images\SfBServer2015.jpg" />
+    <None Include="metadata.json" />
     <None Include="nested\Shared.json" />
     <None Include="nested\VM-deploy-EDGE.json" />
     <None Include="nested\VM-deploy-WAP.json" />
@@ -49,6 +51,7 @@
     <None Include="nested\VM-ext-SFBClient.json" />
     <None Include="nested\VM-ext-SFBFE.json" />
     <None Include="nested\VM-ext-WAP.json" />
+    <None Include="README.md" />
     <None Include="scripts\Add-ADUsers.ps1" />
     <None Include="scripts\ADFS-Install.ps1" />
     <None Include="scripts\DefaultTopology_Skype.xml" />

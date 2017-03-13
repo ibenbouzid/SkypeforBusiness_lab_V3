@@ -88,7 +88,7 @@
   },
   "variables": {
     "apiVersion": "2015-06-15",
-    "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master",
+    "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
     "dnsPrefix": "[resourceGroup().name]",
     "AVSetName": [ "AvailabilitySet-INT", "AvailabilitySet-DMZ" ],
@@ -859,6 +859,9 @@
           },
           "PublicCert": {
             "value": "[parameters('WAPPublicCertificate')]"
+          },
+          "MediationServName": {
+            "value": "[variables('VMservers').VMName[1]]"
           }
         }
       }

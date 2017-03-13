@@ -73,6 +73,12 @@
       "metadata": {
         "description": "Is public Certificate to use"
       }
+    },
+    "MediationServName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Name of the Mediation server"
+      }
     }
   },
   "variables": {
@@ -123,13 +129,14 @@
         "settings": {
           "fileUris": [
             "[concat(parameters('_artifactsLocation'), '/scripts/WAP-Install.ps1')]",
-            "[concat(parameters('_artifactsLocation'), '/scripts/NewCertReq.ps1')]"
+            "[concat(parameters('_artifactsLocation'), '/scripts/NewCertReq.ps1')]",
+            "[concat(parameters('_artifactsLocation'), '/scripts/freeswitch.xml')]"
           ],
           //"commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File WAP-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -StsServiceIPaddr ', parameters('StsServiceIPaddr'),' -PublicCert ', parameters('PublicCert'))]"
         //}
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File WAP-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -StsServiceIPaddr ', parameters('StsServiceIPaddr'),' -PublicCert ', parameters('PublicCert'))]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File WAP-Install.ps1 -DomainName ', parameters('domainName'),' -Username ', parameters('adminUsername'),' -Password ', parameters('adminPassword'),' -CAComputerName ', parameters('ADFS_CA_Name'), ' -Share ', parameters('_SfBshareLocation'),' -sasToken ', parameters('_SfBshareSasToken'), ' -StsServiceName ', parameters('StsServiceName'),' -CertPassword ', parameters('CertPassword'),' -StsServiceIPaddr ', parameters('StsServiceIPaddr'),' -PublicCert ', parameters('PublicCert'),' -MediationServName ', parameters('MediationServName'))]"
         }
       }
     }

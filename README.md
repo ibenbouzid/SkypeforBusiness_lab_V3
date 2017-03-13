@@ -1,5 +1,5 @@
-# Azure SkypeforBusiness lab V2
-Azure template for a Skype for Business
+# Azure SkypeforBusiness lab V3
+Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway
 
 # Create a Skype for Business 2015 Standard Lab
 
@@ -26,11 +26,11 @@ Before starting the deployment there is some steps to follow:
 8. You will have to fill some parameters like your storage account name and the sastoken as well as some other mandatory parameters like the dns prefix of your lab. Please remember to use only numbers plus lower case letters for your resource group name because it is concatenated to create a storage account name which support only lower case. Use Western Europe instead of Uk south it doesn't support yet the types of VM's used.
 
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V2%2Fmaster%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V3%2Fmaster%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V2%2Fmaster%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V3%2Fmaster%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
@@ -40,13 +40,13 @@ You can either deploy through the azure deploy button (which take less time) or 
 The folder structure inside your storage account should look like this
 
 <a >
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master/images/FolderStructure.jpg"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/FolderStructure.jpg"/>
 </a>
 
 Here is SfBServer2015 and SfB2016 folders components
 <a >
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master/images/SfBServer2015.jpg"/>
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V2/master/images/SfB2016.jpg"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SfBServer2015.jpg"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SfB2016.jpg"/>
 </a>
 
 

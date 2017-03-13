@@ -29,7 +29,10 @@ Param (
 		[Parameter(Mandatory)]
         [string]$CertPassword,
 		[Parameter(Mandatory)]
-        [string]$PublicCert
+        [string]$PublicCert,
+
+		[Parameter(Mandatory)]
+        [string]$MediationServName
 
        )
 
@@ -74,7 +77,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		$_DomainCreds,
 		$_DomainName,
 		$_CAComputerName,
-		$_PublicCert
+		$_PublicCert,
+		$_MediationServName
     )
 
 
@@ -160,16 +164,21 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 
 
-	###########################Install Freeswitch PSTN Gateway
-	#$workingDir ='C:\Users\ibenbouzid'
+	########################################Install Freeswitch PSTN Gateway
 	$Newconfig = 'C:\Program Files\FreeSWITCH\conf\freeswitch.xml'
 	#$DomainName = "uctech.uk"
-	$FrontEnd = "VM-SFB-FE01"
+	#$FrontEnd = "VM-SFB-FE01"
+	$FrontEnd = $_MediationServName
 	$MediationTCPPort = "5068" 
 	$MediationFqdn = $FrontEnd+'.'+$_DomainName+':'+$MediationTCPPort
-	$IntIP = "10.0.0.7"
-	$ExtIP = "192.168.0.4" 
-	$PubIP = "13.81.4.228"
+	#$IntIP = "10.0.0.7"
+	#$ExtIP = "192.168.0.4" 
+	#$PubIP = "13.81.4.228"
+
+	#Get primary and secondary Nic's IPv4 address
+	Get-NetIPConfiguration | foreach {if ($_.IPv4DefaultGateway) {$ExtIP = $_.IPv4Address.IPAddress} else {$IntIP = $_.IPv4Address.IPAddress}}
+	#Get Public IP address
+	$PubIP = (Invoke-RestMethod https://api.ipify.org?format=json).ip
 
 	#Download Freeswitch from Storage account or from the web
 	copy-Item "G:\FreeSWITCH*.msi" -Destination FreeSWITCH.msi -ErrorAction Continue -Force
@@ -185,7 +194,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	#Remove the vannila config files
 	Remove-Item 'C:\Program Files\FreeSWITCH\conf\*' -Force -Recurse
 
-	#Create freeswitch.xml config and populate parameters to the file
+	#Create freeswitch.xml config and populate with parameters
 	$defaultconfig= $workingDir+ "\freeswitch.xml"
 	$xml = New-Object XML
 	$xml.Load($defaultconfig)
@@ -206,11 +215,13 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	#Start Freeswith service
 	Set-Service FreeSWITCH -StartupType Automatic
 	Start-Service FreeSWITCH
+	################################################End Freeswitch PSTN gateway config
 
-
-
-
-
+	######Copy Xlite
+	$username = $_DomainCreds.UserName
+	copy-Item "G:\X-lite*.exe" -Destination C:\Users\$username\Desktop\X-lite.exe -ErrorAction Continue -Force
+	
+	#unmount G drive
 	net use G: /d
 
 	#Pin shortcuts to taskbar
@@ -218,7 +229,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
 	$pn.invokeverb('taskbarpin')
 
-} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool
+} -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $StsServiceIpaddr, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool, $MediationServName
 
 	
 
