@@ -1,10 +1,10 @@
-FirstName,LastName,Site,Dept,LogonUsername,Name,Container
-Travis,Garden,Nice,Prod,tgarden,Travis Garden,"ou=Nice Users,ou=Nice,ou=FR,dc=ilab,dc=com"
-Payton,Gas,Nice,Sales,pgas,Payton Gas,"ou=Nice Users,ou=Nice,ou=FR,dc=ilab,dc=com"
-Alaura,Gate,Nice,Prod,agate,Alaura Gate,"ou=Nice Users,ou=Nice,ou=FR,dc=ilab,dc=com"
-Jessica,Gemstone,Guy,Prod,jgemstone,Jessica Gemstone,"ou=Guy Users,ou=Guy,ou=FR,dc=ilab,dc=com"
-Tyler,Girl,Guy,Prod,tgirl,Tyler Girl,
-Madelyn,Gloves,Guy,Sales,mgloves,Madelyn Gloves,
-Chloe,God,Guy,Prod,cgod,Chloe God,
-Ainsleigh,Grapes,Guy,Prod,agrapes,Ainsleigh Grapes,
-Joshua,Guitar,Guy,Sales,jguitar,Joshua Guitar,
+FirstName,LastName,Site,Dept,LogonUsername,Name,Container,Tel
+Payton,Gas,Nice,Sales,pgas,Payton Gas,,+441180001001
+Travis,Garden,Nice,Prod,tgarden,Travis Garden,,+441180001002
+Alaura,Gate,Nice,Prod,agate,Alaura Gate,,+441180001003
+Jessica,Gemstone,Guy,Prod,jgemstone,Jessica Gemstone,,+441180001004
+Tyler,Girl,Guy,Prod,tgirl,Tyler Girl,,+441180001005
+Madelyn,Gloves,Guy,Sales,mgloves,Madelyn Gloves,,+441180001006
+Chloe,God,Guy,Prod,cgod,Chloe God,,+441180001007
+Ainsleigh,Grapes,Guy,Prod,agrapes,Ainsleigh Grapes,,+441180001008
+Joshua,Guitar,Guy,Sales,jguitar,Joshua Guitar,,+441180001009

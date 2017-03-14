@@ -217,7 +217,8 @@
         "settings": {
           "fileUris": [
             "[concat(parameters('_artifactsLocation'), '/scripts/Add-ADUsers.ps1')]",
-            "[concat(parameters('_artifactsLocation'), '/scripts/New-ADUsers.csv')]"
+            "[concat(parameters('_artifactsLocation'), '/scripts/New-ADUsers.csv')]",
+            "[concat(parameters('_artifactsLocation'), '/scripts/Pics.zip')]"
           ]
         },
         "protectedsettings": {

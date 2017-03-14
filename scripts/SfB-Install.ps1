@@ -239,7 +239,7 @@ New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Setting
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\Domains\$DomainDNSName" -Name * -Value 1 -Type DWord -ErrorAction Continue
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap" -Name IEHarden -Value 0 -Type DWord -ErrorAction Continue
 
-
+#region Edge srever Config ################################################
 #Enable external Edge access and federation
 Set-CsAccessEdgeConfiguration -Identity "Global" -AllowAnonymousUsers $true -AllowFederatedUsers $True -AllowOutsideUsers $True -UseDnsSrvRouting -EnablePartnerDiscovery $True
 Set-CsExternalAccessPolicy -Identity "Global" -EnableFederationAccess $True -EnableOutsideAccess $True
@@ -248,6 +248,52 @@ Set-CsExternalAccessPolicy -Identity "Global" -EnableFederationAccess $True -Ena
 $EdgeCsConfig = 'G:\Share\Config'+$sipdomain+'.zip'
 Remove-Item $EdgeCsConfig -ErrorAction SilentlyContinue
 Export-CsConfiguration -FileName $EdgeCsConfig
+#endregion Edge server config
+
+#region Enterprise voice routing config ########################################
+# Set Parameters
+$PstnUsage1 = "LocalPBX"
+$PstnUsage2 = "UKDomestic"
+$PstnUsage3 = "International"
+$SkypeSiteId = (Get-CsSite)[0].Identity
+$SkypeSiteName = (Get-CsSite)[0].DisplayName
+$PstnGatewayId = (Get-CsService -PstnGateway)[0].identity
+$DialinRegion = "EMEA"
+
+#Configure Dial plans and normalization rules
+New-CsDialPlan -Identity $SkypeSiteId -SimpleName  $SkypeSiteName'_DialPlan' -DialinConferencingRegion $DialinRegion
+Remove-CsVoiceNormalizationRule -Identity $SkypeSiteId'/Keep All'
+New-CsVoiceNormalizationRule -Identity $SkypeSiteId'/ToSkypeUKUsers' -Pattern "^(1\d{3})$" -Translation '+44118000$1'
+New-CsVoiceNormalizationRule -Identity $SkypeSiteId'/ToFreeSwitchUsers' -Pattern "^(2\d{3})$" -Translation '+44118000$1'
+New-CsVoiceNormalizationRule -Identity $SkypeSiteId'/ToInternationalE164' -Pattern "^(\+|00)(\d{10}\d+)$" -Translation '+$2'
+New-CsVoiceNormalizationRule -Identity $SkypeSiteId'/ToUKE164' -Pattern "^0(\d{10})$" -Translation '+44$1'
+
+#Configure PSTN usages
+Set-CsPstnUsage -Usage @{Replace=$PstnUsage1, $PstnUsage2, $PstnUsage3}
+
+#Configure Voice policies and link to PSTN usage
+New-CsVoicePolicy -Identity $SkypeSiteId -AllowCallForwarding $true -PstnUsages @{Add=$PstnUsage1, $PstnUsage2, $PstnUsage3} -AllowPSTNReRouting $true -AllowSimulRing $true -EnableCallPark $true -EnableCallTransfer $true -EnableDelegation $true -EnableMaliciousCallTracing $true -EnableTeamCall $true
+New-CsVoicePolicy -Identity $PstnUsage1 -AllowCallForwarding $true -PstnUsages @{Add=$PstnUsage1} -AllowPSTNReRouting $true -AllowSimulRing $true -EnableCallPark $true -EnableCallTransfer $true -EnableDelegation $true -EnableMaliciousCallTracing $true -EnableTeamCall $true
+New-CsVoicePolicy -Identity $PstnUsage2 -AllowCallForwarding $true -PstnUsages @{Add=$PstnUsage1, $PstnUsage2} -AllowPSTNReRouting $true -AllowSimulRing $true -EnableCallPark $true -EnableCallTransfer $true -EnableDelegation $true -EnableMaliciousCallTracing $true -EnableTeamCall $true
+
+
+#Configure Voice policies and link to PSTN usage
+New-CsVoiceRoute -Identity $PstnUsage1'_Route' -NumberPattern "^\+441180002\d{3}" -PstnUsages @{Add=$PstnUsage1} -PstnGatewayList @{Add=$PstnGatewayId} 
+New-CsVoiceRoute -Identity $PstnUsage2'_Route' -NumberPattern "^\+44\d{10}" -PstnUsages @{Add=$PstnUsage2} -PstnGatewayList @{Add=$PstnGatewayId} 
+New-CsVoiceRoute -Identity $PstnUsage3'_Route' -NumberPattern "^\+\d{10}\d+" -PstnUsages @{Add=$PstnUsage3} -PstnGatewayList @{Add=$PstnGatewayId} 
+
+#Unassigned numbers Config
+$AnnServiceId = (Get-CsService | where {$_.role -eq 'ApplicationServer'})[0].Identity
+$ForwardSipuri = "sip:pgas@"+$DomainDNSName
+New-CsAnnouncement -Identity $AnnServiceId -Name "Forward Announcement" -TextToSpeechPrompt "This number is temporarily out of service, we will transfer your call" -Language "en-GB" -TargetUri $ForwardSipuri
+New-CsUnassignedNumber -Identity $SkypeSiteName'_UNset1' -NumberRangeStart '+441180001010' -NumberRangeEnd '+441180001020' -AnnouncementService $AnnServiceId -AnnouncementName "Forward Announcement"
+
+#endregion #######################################Enterprise voice routing config#################
+
+#region ##################Dialin Conferencing config######################################
+$DialinUri = "sip:"+$DialinRegion+'@'+$DomainDNSName
+New-CsDialInConferencingAccessNumber -PrimaryUri $DialinUri -DisplayNumber "+44-118-000-1000" -LineUri "tel:+441180001000" -Pool (Get-CsPool)[0].Identity -PrimaryLanguage "en-GB" -Regions $DialinRegion -SecondaryLanguages "fr-FR", "ar-SA"
+#endregion
 
 #Remove installation file Drive
 net use G: /d

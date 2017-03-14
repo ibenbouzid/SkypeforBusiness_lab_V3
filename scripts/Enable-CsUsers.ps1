@@ -14,5 +14,5 @@ $Computer = $env:computername + '.'+$Domain.DNSRoot
 
 Import-Csv .\New-ADUsers.csv | ForEach-Object {
     Enable-CsUser -Identity $_.Name -SipAddressType SamAccountName  -SipDomain $SipDomain -RegistrarPool $Computer
-    Set-CsUser -Identity $_.Name -EnterpriseVoiceEnabled $True
+    Set-CsUser -Identity $_.Name -EnterpriseVoiceEnabled $True -LineUri ("tel:"+$_.Tel)
 }
