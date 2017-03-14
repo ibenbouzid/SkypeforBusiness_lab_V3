@@ -40,18 +40,20 @@ Enable-WSManCredSSP -Role server -force
 Write-Verbose "Installing SfB pre-requisites @ $(Get-Date)"
 #connect to file share on storage account
 net use G: $Share /u:$User $sasToken
+Mount-DiskImage G:\SfBServer2015.iso
+$DVD = (Get-PSDrive | where {$_.Description -eq "CD_ROM"}).Root
 
 start-sleep -Seconds 10
 #install Visual C++
-Start-Process -FilePath cmd -ArgumentList /c, "G:\SfBServer2015\Setup\amd64\vcredist_x64.exe", /q -Wait
+Start-Process -FilePath cmd -ArgumentList /c, $DVD'Setup\amd64\vcredist_x64.exe', /q -Wait
 #install Lync core
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\setup\ocscore.msi", /passive -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\setup\ocscore.msi', /passive -Wait
 #install SQL express
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\SQLSysClrTypes.msi", /quiet -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\SQLSysClrTypes.msi', /quiet -Wait
 #install SMO
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\SharedManagementObjects.msi", /quiet -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\SharedManagementObjects.msi', /quiet -Wait
 #install Lync admin tools
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\setup\admintools.msi", /passive -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\setup\admintools.msi', /passive -Wait
 #install SilverLight
 Start-Process -FilePath cmd -ArgumentList /c, "G:\Silverlight_x64.exe", /q -Wait
 
@@ -60,7 +62,7 @@ Start-Process -FilePath wusa -ArgumentList "G:\Windows8.1-KB2919442-x64.msu", /q
 Start-Process -FilePath wusa -ArgumentList "G:\Windows8.1-KB2919355-x64.msu", /quiet -Wait -verbose
 Start-Process -FilePath wusa -ArgumentList "G:\Windows8.1-KB2982006-x64.msu", /quiet, /norestart -Wait -verbose
 
-
+Dismount-DiskImage G:\SfBServer2015.iso
 net use G: /d
 #endregion Lync Prerequisite
 
