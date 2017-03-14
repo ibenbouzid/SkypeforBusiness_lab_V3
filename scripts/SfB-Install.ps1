@@ -159,7 +159,7 @@ $xml.Topology.Services.Service[11].Ports.Port[6].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[8].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[9].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[10].ConfiguredFqdn = $edgeUrls
-$xml.Topology.Services.Service[13].Ports.Port[0].ConfiguredFqdn = $Pstnfqdn
+$xml.Topology.Services.Service[13].Ports.Port.ConfiguredFqdn = $Pstnfqdn
 $xml.Save($NewTopologypath)
 
 
@@ -244,7 +244,7 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet
 
 #region Edge srever Config ################################################
 #Enable external Edge access and federation
-Set-CsAccessEdgeConfiguration -Identity "Global" -AllowAnonymousUsers $true -AllowFederatedUsers $True -AllowOutsideUsers $True -UseDnsSrvRouting -EnablePartnerDiscovery $True
+Set-CsAccessEdgeConfiguration -AllowAnonymousUsers $true -AllowFederatedUsers $true -AllowOutsideUsers $true -UseDnsSrvRouting -EnablePartnerDiscovery $true
 Set-CsExternalAccessPolicy -Identity "Global" -EnableFederationAccess $True -EnableOutsideAccess $True
 
 #Export the topology for the Edge srever
