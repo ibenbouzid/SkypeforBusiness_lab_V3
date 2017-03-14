@@ -89,6 +89,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$_SkypeWebServicesRoot = "webext."
 	$OfficeWebAppsRoot = "owas."
 	$externalweburl = $_SkypeWebServicesRoot+$_Sipdomain
+	#For private Certificate only
 	$CertificateWAPsubject = $externalweburl
 
 
