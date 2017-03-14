@@ -170,17 +170,18 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	## Start Skype Edge services ##
 	Start-CSWindowsService -NoWait -Report $Logfilespath'24_Start-CSwindowsService.html'
 
+	#Unmount Drive
 	net use G: /d
+	
+	#pin shortcuts to taskbar
+	$sa = new-object -c shell.application
+	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
+	$pn.invokeverb('taskbarpin')
+	$pn = $sa.namespace("c:\ProgramData\Microsoft\Windows\Start Menu\Programs\Skype for Business Server 2015").parsename('Skype for Business Server Management Shell.lnk')
+	$pn.invokeverb('taskbarpin')
+	$pn = $sa.namespace("$env:ProgramFiles\Skype for Business Server 2015\Deployment").parsename('Deploy.exe')
+	$pn.invokeverb('taskbarpin')
 
-
-
-$sa = new-object -c shell.application
-$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
-$pn.invokeverb('taskbarpin')
-$pn = $sa.namespace("c:\ProgramData\Microsoft\Windows\Start Menu\Programs\Skype for Business Server 2015").parsename('Skype for Business Server Management Shell.lnk')
-$pn.invokeverb('taskbarpin')
-$pn = $sa.namespace("$env:ProgramFiles\Skype for Business Server 2015\Deployment").parsename('Deploy.exe')
-$pn.invokeverb('taskbarpin')
 }  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $SecureCertPassword , $PublicCertbool
 
 Disable-PSRemoting
