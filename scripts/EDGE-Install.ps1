@@ -71,16 +71,18 @@ New-ItemProperty -name ConcatenateDefaults_AllowFreshNTLMOnly -path HKLM:\Softwa
 ##connect to file share on storage account
 #net use G: $_Share /u:$_User $_sasToken
 net use G: $Share /u:$User $sasToken
+Mount-DiskImage G:\SfBServer2015.iso
+$DVD = (Get-PSDrive | where {$_.Description -eq "CD_ROM"}).Root
 
 start-sleep -Seconds 10
 #install Visual C++
-Start-Process -FilePath cmd -ArgumentList /c, "G:\SfBServer2015\Setup\amd64\vcredist_x64.exe", /q -Wait
+Start-Process -FilePath cmd -ArgumentList /c, $DVD'Setup\amd64\vcredist_x64.exe', /q -Wait
 #install Lync core
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\setup\ocscore.msi", /passive -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\setup\ocscore.msi', /passive -Wait
 #install SQL express
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\SQLSysClrTypes.msi", /quiet -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\SQLSysClrTypes.msi', /quiet -Wait
 #install SMO
-Start-Process -FilePath msiexec -ArgumentList /i, "G:\SfBServer2015\Setup\amd64\SharedManagementObjects.msi", /quiet -Wait
+Start-Process -FilePath msiexec -ArgumentList /i, $DVD'Setup\amd64\SharedManagementObjects.msi', /quiet -Wait
 
 
 ## Module Imports ##
@@ -106,7 +108,7 @@ $RootCAfilepath = "G:\cert\SSL_RootCA.crt"
 Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 start-sleep -Seconds 10
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:$DVD'Setup\amd64'
 
 #start-sleep -Seconds 10
 ##Install SQL databases RTCLOCAL and LYNCLOCAL

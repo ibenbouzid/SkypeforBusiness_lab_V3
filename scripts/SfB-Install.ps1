@@ -115,7 +115,7 @@ Enable-CSAdDomain -Verbose -Confirm:$false -Report $Logfilespath"03_Enable-CSAdD
 Add-ADGroupMember -Identity CSAdministrator -Members "Domain Admins"
 Add-ADGroupMember -Identity RTCUniversalServerAdmins -Members "Domain Admins"
 
-## Install SQL RTC database with updateEnabled=0 because internet access is denied trough the script extention
+## Install SQL RTC database
 #Start-Process  -FilePath G:\SfBServer2015\Setup\amd64\SQLEXPR_x64.exe  -ArgumentList '/UpdateEnabled=0 /Q /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /ACTION=Install /FEATURES=SQLEngine,Tools /INSTANCENAME=RTC /TCPENABLED=1 /SQLSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSYSADMINACCOUNTS="Builtin\Administrators" /BROWSERSVCSTARTUPTYPE="Automatic" /AGTSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSVCSTARTUPTYPE=Automatic' -Wait -NoNewWindow
 # Install RTC database for First Edition Server
 & 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /BootstrapSqlExpress /SourceDirectory:$DVD'Setup\amd64'
