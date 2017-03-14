@@ -280,7 +280,8 @@ New-CsVoicePolicy -Identity $PstnUsage1 -AllowCallForwarding $true -PstnUsages @
 New-CsVoicePolicy -Identity $PstnUsage2 -AllowCallForwarding $true -PstnUsages @{Add=$PstnUsage1, $PstnUsage2} -AllowPSTNReRouting $true -AllowSimulRing $true -EnableCallPark $true -EnableCallTransfer $true -EnableDelegation $true -EnableMaliciousCallTracing $true -EnableTeamCall $true
 
 
-#Configure Voice policies and link to PSTN usage
+#Configure Trunk, Voice policies and link to PSTN usage
+New-CsTrunkConfiguration -Identity $PstnGatewayId -EnableReferSupport $false -SRTPMode Optional
 New-CsVoiceRoute -Identity $PstnUsage1'_Route' -NumberPattern "^\+441180002\d{3}" -PstnUsages @{Add=$PstnUsage1} -PstnGatewayList @{Add=$PstnGatewayId} 
 New-CsVoiceRoute -Identity $PstnUsage2'_Route' -NumberPattern "^\+44\d{10}" -PstnUsages @{Add=$PstnUsage2} -PstnGatewayList @{Add=$PstnGatewayId} 
 New-CsVoiceRoute -Identity $PstnUsage3'_Route' -NumberPattern "^\+\d{10}\d+" -PstnUsages @{Add=$PstnUsage3} -PstnGatewayList @{Add=$PstnGatewayId} 
