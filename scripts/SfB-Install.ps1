@@ -84,7 +84,8 @@ param (
 
 #connect to file share on storage account
 net use G: $_Share /u:$_User $_sasToken
-
+Mount-DiskImage G:\SfBServer2015.iso
+$DVD = (Get-PSDrive | where {$_.Description -eq "CD_ROM"}).Root
 
 ## Module Imports ##
 
@@ -117,7 +118,7 @@ Add-ADGroupMember -Identity RTCUniversalServerAdmins -Members "Domain Admins"
 ## Install SQL RTC database with updateEnabled=0 because internet access is denied trough the script extention
 #Start-Process  -FilePath G:\SfBServer2015\Setup\amd64\SQLEXPR_x64.exe  -ArgumentList '/UpdateEnabled=0 /Q /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /ACTION=Install /FEATURES=SQLEngine,Tools /INSTANCENAME=RTC /TCPENABLED=1 /SQLSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSYSADMINACCOUNTS="Builtin\Administrators" /BROWSERSVCSTARTUPTYPE="Automatic" /AGTSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSVCSTARTUPTYPE=Automatic' -Wait -NoNewWindow
 # Install RTC database for First Edition Server
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /BootstrapSqlExpress /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /BootstrapSqlExpress /SourceDirectory:$DVD'Setup\amd64'
 
 ## Install Central Management Store databases within RTC
 Install-CsDatabase -CentralManagementDatabase -SqlServerFqdn $Computer -SqlInstanceName rtc -DatabasePaths $Databasespaths -Report $Logfilespath'04_InstallCMSDatabases.html'
@@ -174,7 +175,7 @@ Write-Verbose "Installing local configuration store @ $(Get-Date)"
 #Start-Process  -FilePath G:\SfBServer2015\Setup\amd64\SQLEXPR_x64.exe  -ArgumentList '/UpdateEnabled=0 /QUIET /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /ACTION=Install /FEATURES=SQLEngine,Tools /INSTANCENAME=LYNCLOCAL /TCPENABLED=1 /SQLSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSYSADMINACCOUNTS="Builtin\Administrators" /BROWSERSVCSTARTUPTYPE="Automatic" /AGTSVCACCOUNT="NT AUTHORITY\NetworkService" /SQLSVCSTARTUPTYPE=Automatic' -Wait -NoNewWindow
 
 ##do the same thing for RTCLOCAL and LYNCLOCAL
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+& 'C:\Program Files\Skype for Business Server 2015\Deployment\bootstrapper.exe' /Bootstraplocalmgmt /SourceDirectory:$DVD'Setup\amd64'
 
 ## Install Local configuration Store (replica of CMS) within RTCLOCAL
 #Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
@@ -205,7 +206,7 @@ Enable-CsReplica -Report $Logfilespath'08_Enable-CsReplica.html'
 Start-CSwindowsService Replica -Report $Logfilespath'09_Start-CSwindowsService-Replica.html'
 
 ## Install Lync Component
-& 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:"G:\SfBServer2015\Setup\amd64"
+& 'C:\Program Files\Skype for Business Server 2015\Deployment\Bootstrapper.exe' /SourceDirectory:$DVD'Setup\amd64'
 
 ##install local databases contained in SQL instances RTCLOCAL and LYNCLOCAL
 Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
@@ -302,6 +303,7 @@ New-CsDialInConferencingAccessNumber -PrimaryUri $DialinUri -DisplayNumber "+44-
 #endregion
 
 #Remove installation file Drive
+Dismount-DiskImage G:\SfBServer2015.iso
 net use G: /d
 
 #Enable users
