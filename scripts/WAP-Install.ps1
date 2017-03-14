@@ -175,8 +175,6 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	Add-WebApplicationProxyApplication -Name 'Federation service' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$_stsServiceName/" -BackendServerUrl ("https://"+$_stsServiceName+"/") -ExternalCertificateThumbprint $certificateSTSThumbprint
  
 
-
-
 	########################################Install Freeswitch PSTN Gateway
 	$Newconfig = 'C:\Program Files\FreeSWITCH\conf\freeswitch.xml'
 	#$DomainName = "uctech.uk"
