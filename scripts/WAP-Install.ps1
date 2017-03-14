@@ -100,17 +100,28 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
     #go to our packages scripts folder
     Set-Location $workingDir
      
-	#Add host entry to hosts file
-	$hostsFile = "$env:windir\System32\drivers\etc\hosts"
-    $newHostEntry = "`t$_stsServiceIpaddr`t$_stsServiceName"
-      if((Get-Content -Path $hostsFile) -contains $NewHostEntry)
-      {
-            Write-Verbose -Verbose "The hosts file already contains the entry: $newHostEntry.  File not updated.";
-      }
-      else
-      {
-            Add-Content -Path $hostsFile -Value $NewHostEntry;
-	  }
+	
+	#Add host Function: Add entry to hosts file
+	Function AddHost{
+		param (
+			$Ipaddr,
+			$HostName
+		)
+		$hostsFile = "$env:windir\System32\drivers\etc\hosts"
+
+		$newHostEntry = "`t$Ipaddr`t$HostName"
+		if((Get-Content -Path $hostsFile) -contains $NewHostEntry)
+		{   Write-Verbose -Verbose "The hosts file already contains the entry: $newHostEntry.  File not updated.";    }
+		else
+		{   Add-Content -Path $hostsFile -Value $NewHostEntry;   }
+	}
+	#Add sts service because WAP is not domain joined
+	AddHost -Ipaddr $_stsServiceIpaddr -HostName $_stsServiceName
+
+	#Add Lyncdiscover in host file as it shouldn't be resolved internally
+	$LyncdiscoverIpaddr =	([System.Net.Dns]::GetHostAddresses($externalweburl)).IPAddressToString
+	$LyncdicoverName = "lyncdiscover."+$_Sipdomain
+	AddHost -Ipaddr $LyncdiscoverIpaddr -HostName $LyncdicoverName
 	
 	#Import Private AD Root CA
 	$RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
