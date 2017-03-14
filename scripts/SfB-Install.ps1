@@ -133,7 +133,7 @@ $sipdomain = $DomainDNSName
 $externalweburl = "webext"+'.'+$sipdomain
 #$_PublicIP = (Invoke-RestMethod https://api.ipify.org?format=json).ip
 $edgeUrls="sip."+$sipdomain
-
+$Pstnfqdn= "sbc1."+$DomainDNSName
 
 $defaultTopology= $workingDir+ "\DefaultTopology_Skype.xml"
 $xml = New-Object XML
@@ -149,6 +149,8 @@ $xml.Topology.Clusters.cluster[1].machine.Fqdn = $_EdgeName+'.'+$DomainDNSName
 $xml.Topology.Clusters.cluster[1].machine.NetInterface[0].IPAddress = $_internalIP
 $xml.Topology.Clusters.cluster[1].machine.NetInterface[1].IPAddress = $_externalIP
 $xml.Topology.Clusters.cluster[1].machine.NetInterface[1].ConfiguredIPAddress = $_PublicIP
+$xml.Topology.Clusters.cluster[2].fqdn = $Pstnfqdn
+$xml.Topology.Clusters.cluster[2].machine.Fqdn = $Pstnfqdn
 $xml.Topology.Services.Service.Webservice.externalsettings.host = $externalweburl
 $xml.Topology.Services.Service[3].FileStoreService.ShareName = $fileshareName
 $xml.Topology.Services.Service[11].Ports.Port[1].ConfiguredFqdn = $edgeUrls
@@ -157,6 +159,7 @@ $xml.Topology.Services.Service[11].Ports.Port[6].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[8].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[9].ConfiguredFqdn = $edgeUrls
 $xml.Topology.Services.Service[11].Ports.Port[10].ConfiguredFqdn = $edgeUrls
+$xml.Topology.Services.Service[13].Ports.Port[0].ConfiguredFqdn = $Pstnfqdn
 $xml.Save($NewTopologypath)
 
 

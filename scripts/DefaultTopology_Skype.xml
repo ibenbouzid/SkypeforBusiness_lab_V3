@@ -24,6 +24,12 @@
         <NetInterface InterfaceSide="External" InterfaceNumber="1" IPAddress="0.0.0.0" ConfiguredIPAddress="1.1.1.1" />
       </Machine>
     </Cluster>
+    <Cluster RequiresReplication="false" RequiresSetup="false" Fqdn="sbc1.contoso.com">
+      <ClusterId SiteId="1" Number="3" />
+      <Machine OrdinalInCluster="1" Fqdn="sbc1.contoso.com">
+        <NetInterface InterfaceSide="Pstn" InterfaceNumber="1" IPAddress="0.0.0.0" />
+      </Machine>
+    </Cluster>
   </Clusters>
   <SqlInstances>
     <SqlInstance>
@@ -223,6 +229,7 @@
         <Port Owner="urn:component:Mediation" Usage="SipServer" InterfaceSide="Primary" InterfaceNumber="1" Port="5070" Protocol="Mtls" UrlPath="/" AuthorizesRequests="true" GruuType="MediationServer" />
         <Port Owner="urn:component:Mediation" Usage="SipClient" InterfaceSide="Pstn" InterfaceNumber="1" Port="5067" Protocol="Tls" UrlPath="/" AuthorizesRequests="false" />
         <Port Owner="urn:component:MediaComp" Usage="AudioCommunication" InterfaceSide="Primary" InterfaceNumber="1" Port="49152" Protocol="TcpOrUdp" UrlPath="/" AuthorizesRequests="false" Range="8348" />
+        <Port Owner="urn:component:Mediation" Usage="SipClient" InterfaceSide="Pstn" InterfaceNumber="1" Port="5068" Protocol="Tcp" UrlPath="/" AuthorizesRequests="false" />
       </Ports>
     </Service>
     <Service RoleVersion="1" ServiceVersion="7" Type="Microsoft.Rtc.Management.Deploy.Internal.ServiceRoles.ApplicationServerService">
@@ -249,6 +256,8 @@
         <Port Owner="urn:component:MediaComp" Usage="AudioCommunication" InterfaceSide="Primary" InterfaceNumber="1" Port="49152" Protocol="TcpOrUdp" UrlPath="/" AuthorizesRequests="false" Range="8348" />
         <Port Owner="urn:component:MediaComp" Usage="VideoCommunication" InterfaceSide="Primary" InterfaceNumber="1" Port="57501" Protocol="TcpOrUdp" UrlPath="/" AuthorizesRequests="false" Range="8034" />
         <Port Owner="urn:component:MediaComp" Usage="AppSharingCommunication" InterfaceSide="Primary" InterfaceNumber="1" Port="49152" Protocol="TcpOrUdp" UrlPath="/" AuthorizesRequests="false" Range="16383" />
+        <Port Owner="urn:application:Cas" Usage="SipServer" InterfaceSide="Primary" InterfaceNumber="1" Port="5073" Protocol="Mtls" UrlPath="/" AuthorizesRequests="true" GruuType="Microsoft.Rtc.Applications.Cas" />
+        <Port Owner="urn:application:Caa" Usage="SipServer" InterfaceSide="Primary" InterfaceNumber="1" Port="5072" Protocol="Mtls" UrlPath="/" AuthorizesRequests="true" GruuType="Microsoft.Rtc.Applications.Caa" />
       </Ports>
       <ApplicationServerService xmlns="urn:schema:Microsoft.Rtc.Management.Deploy.ServiceRoles.2008" />
     </Service>
@@ -323,5 +332,20 @@
             <Port Owner="urn:component:ReplicationService" Usage="Replication" InterfaceSide="Internal" InterfaceNumber="1" Port="4443" Protocol="Https" UrlPath="/" AuthorizesRequests="false" />
          </Ports>
      </Service>
+    <Service RoleVersion="1" ServiceVersion="7" Type="Microsoft.Rtc.Management.Deploy.Internal.ServiceRoles.PstnGatewayService">
+      <ServiceId SiteId="1" RoleName="PstnGateway" Instance="1" />
+      <DependsOn>
+        <Dependency Usage="Default">
+          <ServiceId SiteId="1" RoleName="MediationServer" Instance="1" />
+        </Dependency>
+      </DependsOn>
+      <InstalledOn>
+        <ClusterId SiteId="1" Number="3" />
+      </InstalledOn>
+      <Ports xmlns="urn:schema:Microsoft.Rtc.Management.Deploy.ServiceRoles.2008">
+        <Port Owner="urn:component:GatewayComp" Usage="SipClient" InterfaceSide="Pstn" InterfaceNumber="1" Port="5066" Protocol="Tcp" UrlPath="/" AuthorizesRequests="false" ConfiguredFqdn="sbc1.contoso.com" />
+      </Ports>
+      <PstnGatewayService AlternativeBypassId="c888cf8e-9e3b-48bb-9d99-f9d24d3012ab" MediationServerPort="5068" Default="false" xmlns="urn:schema:Microsoft.Rtc.Management.Deploy.ServiceRoles.2008" />
+    </Service>
   </Services>
 </Topology>
