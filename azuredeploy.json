@@ -91,6 +91,7 @@
     "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
     "dnsPrefix": "[resourceGroup().name]",
+    "SipDomain": "[parameters('domainName')]",
     "AVSetName": [ "AvailabilitySet-INT", "AvailabilitySet-DMZ" ],
     "LoadBalancerName": [ "LB-INT", "LB-DMZ" ],
     "VnetName": "Vnet1",
@@ -332,10 +333,10 @@
             "value": "[variables('_artifactsLocation')]"
           },
           "DMZ_DNSRecordsNames": {
-            "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[3]]", "[variables('VMservers').VMName[4]]" ]
+            "value": [ "[parameters('StsServiceName')]", "[variables('VMservers').VMName[3]]", "[variables('VMservers').VMName[4]]", "[variables('SipDomain')]" ]
           },
           "DMZ_DNSRecordsIP": {
-            "value": [ "[variables('VMservers').VMIPaddr[2]]", "[variables('VMservers').VMIPaddr[3]]", "[variables('VMservers').VMIPaddr[4]]" ]
+            "value": [ "[variables('VMservers').VMIPaddr[2]]", "[variables('VMservers').VMIPaddr[3]]", "[variables('VMservers').VMIPaddr[4]]", "[variables('VMservers').VMIPaddr[1]]" ]
           },
           "_ShareLocation": {
             "value": "[parameters('ShareLocation')]"

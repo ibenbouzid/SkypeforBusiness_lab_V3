@@ -222,7 +222,7 @@
           ]
         },
         "protectedsettings": {
-          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Add-ADUsers.ps1 -Password ', parameters('adminPassword'),' -Share ', parameters('_ShareLocation'), ' -sasToken ', parameters('_ShareSasToken'),' -DNSName1 ', parameters('DMZ_DNSRecordsNames')[0], ' -DNSIPrecord1 ', parameters('DMZ_DNSRecordsIP')[0],' -DNSName2 ', parameters('DMZ_DNSRecordsNames')[1], ' -DNSIPrecord2 ', parameters('DMZ_DNSRecordsIP')[1],' -DNSName3 ', parameters('DMZ_DNSRecordsNames')[2],' -DNSIPrecord3 ', parameters('DMZ_DNSRecordsIP')[2])]"
+          "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Add-ADUsers.ps1 -Password ', parameters('adminPassword'),' -Share ', parameters('_ShareLocation'), ' -sasToken ', parameters('_ShareSasToken'),' -DNSName1 ', parameters('DMZ_DNSRecordsNames')[0], ' -DNSIPrecord1 ', parameters('DMZ_DNSRecordsIP')[0],' -DNSName2 ', parameters('DMZ_DNSRecordsNames')[1], ' -DNSIPrecord2 ', parameters('DMZ_DNSRecordsIP')[1],' -DNSName3 ', parameters('DMZ_DNSRecordsNames')[2],' -DNSIPrecord3 ', parameters('DMZ_DNSRecordsIP')[2],' -SipDomain ', parameters('DMZ_DNSRecordsNames')[3],' -SkypeIP ', parameters('DMZ_DNSRecordsIP')[3])]"
         }
       }
     }

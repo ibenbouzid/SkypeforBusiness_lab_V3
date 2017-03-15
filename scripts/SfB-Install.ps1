@@ -180,15 +180,7 @@ Write-Verbose "Installing local configuration store @ $(Get-Date)"
 ## Install Local configuration Store (replica of CMS) within RTCLOCAL
 #Install-CSDatabase -ConfiguredDatabases -SqlServerFqdn $Computer -DatabasePaths $Databasespaths -Report $Logfilespath'07_InstallLocalstoreDatabases.html'
 
-## DNS Records ## if your SIPdomain = Internal AD Domain
-
-$lyncIP = Get-NetAdapter | Get-NetIPAddress -AddressFamily IPv4
-Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name sip -ZoneName $DomainDNSName -ComputerName $DC.HostName
-Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name meet -ZoneName $DomainDNSName -ComputerName $DC.HostName
-Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name admin -ZoneName $DomainDNSName -ComputerName $DC.HostName
-Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name dialin -ZoneName $DomainDNSName -ComputerName $DC.HostName
-Add-DnsServerResourceRecordA -IPv4Address $lyncIP.IPv4Address -Name webext -ZoneName $DomainDNSName -ComputerName $DC.HostName
-
+# Simple urls configuraton
 $urlEntry1 = New-CsSimpleUrlEntry -Url "https://dialin.$sipdomain"
 $simpleUrl1 = New-CsSimpleUrl -Component "dialin" -Domain "*" -SimpleUrlEntry $urlEntry1 -ActiveUrl "https://dialin.$sipdomain"
 $urlEntry2 = New-CsSimpleUrlEntry -Url "https://meet.$sipdomain"

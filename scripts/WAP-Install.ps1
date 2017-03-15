@@ -100,7 +100,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
     #go to our packages scripts folder
     Set-Location $workingDir
      
-	
+	#Region Populate Host
 	#Add host Function: Add entry to hosts file
 	Function AddHost{
 		param (
