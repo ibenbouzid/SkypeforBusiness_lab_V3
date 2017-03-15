@@ -308,4 +308,4 @@ Disable-WSManCredSSP -role client
 Disable-WSManCredSSP -role server
 
 #The registery key modified earlier need a computer restart
-Restart-Computer
+#Restart-Computer

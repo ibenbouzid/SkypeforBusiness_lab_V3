@@ -149,9 +149,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	net use G: $_Share /u:$_User $_sasToken
 	#start-sleep -Seconds 10 
 
-		#Request Internal Edge Private Certificate from RootCA
-		$certServerInternal = Request-CsCertificate -New -Type Internal -CA $CAName -FriendlyName "Internal Edge Certificate" -PrivateKeyExportable $True -AllSipDomain -Report $Logfilespath'20_Request-CsCertificate_Internal_EDGE.html'
-		Set-CsCertificate -Reference $certServerInternal -Type Internal -Report $Logfilespath'21_Set-CsCertificate-Webserver-Internal.html'
+	#Request Internal Edge Private Certificate from RootCA
+	$certServerInternal = Request-CsCertificate -New -Type Internal -CA $CAName -FriendlyName "Internal Edge Certificate" -PrivateKeyExportable $True -AllSipDomain -Report $Logfilespath'20_Request-CsCertificate_Internal_EDGE.html'
+	Set-CsCertificate -Reference $certServerInternal -Type Internal -Report $Logfilespath'21_Set-CsCertificate-Webserver-Internal.html'
 
 
 	if ($_PublicCert) {

@@ -80,15 +80,15 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
     Set-Location $workingDir
 
 
-    
+    #region#   Certificate management
 	if ($_PublicCert) {
-		#Import public STS service root CA   
+		#Import public STS service root CA if any   
 		$RootCAfilepath = "G:\cert\SSL_RootCA.crt"
 		Import-Certificate -Filepath (get-childitem $RootCAfilepath) -CertStoreLocation Cert:\LocalMachine\Root -ErrorAction Continue
 
 		#Install the certificate that will be used for ADFS Service
 		$STScert = 'G:\cert\sts.'+$_DomainName+'.pfx'
-		Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert  
+		$certificateThumbprint = (Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert).thumbprint  
 	}
 	else {
 		
@@ -98,15 +98,16 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 		Import-Module .\NewCertReq.ps1
 		# Request Web Application Proxy certificate
 		New-CertificateRequest -subject $stsSubjectCN -OnlineCA $CertificateAuthority
-  	}   
-	 
-	#get thumbprint of certificate
-	#$cert = Get-ChildItem -Path Cert:\LocalMachine\my | ?{$_.Subject -eq "CN=$_stsServiceName, OU=Free SSL, OU=Domain Control Validated"} 
-	$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
+
+		#get thumbprint of certificate
+		$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
  
-	#Export the STS certificate into the shared folder
-	$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
-    Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
+		#Export the STS certificate into the shared folder to be consumed by WAP
+		$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
+		Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
+  	}   
+	#endregion 
+	
 
 	#Configure ADFS Farm
     Import-Module ADFS
@@ -118,9 +119,9 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 	net use G: /d
 
 	#Pin shortcuts to taskbar
-   $sa = new-object -c shell.application
-   $pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
-   $pn.invokeverb('taskbarpin')
+	$sa = new-object -c shell.application
+	$pn = $sa.namespace("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools").parsename('Windows PowerShell ISE.lnk')
+	$pn.invokeverb('taskbarpin')
 
 } -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $SecureCertPassword, $StsServiceName, $DomainCreds, $DomainName, $CAComputerName, $PublicCertbool
 

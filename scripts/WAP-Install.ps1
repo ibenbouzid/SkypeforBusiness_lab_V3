@@ -100,7 +100,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
     #go to our packages scripts folder
     Set-Location $workingDir
      
-	#Region Populate Host
+	#region#   Populate Host File
 	#Add host Function: Add entry to hosts file
 	Function AddHost{
 		param (
@@ -122,7 +122,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	$LyncdiscoverIpaddr =	([System.Net.Dns]::GetHostAddresses($externalweburl)).IPAddressToString
 	$LyncdicoverName = "lyncdiscover."+$_Sipdomain
 	AddHost -Ipaddr $LyncdiscoverIpaddr -HostName $LyncdicoverName
-	
+	#endregion
+
+	#region#   Request/Install Certificates
 	#Import Private AD Root CA
 	$RootCA= "G:\Share\"+$_DomainName+"-CA.crt"
 	Import-Certificate -Filepath $RootCA -CertStoreLocation Cert:\LocalMachine\Root
@@ -133,8 +135,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 	#install the certificate that will be used for ADFS Service
 	$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
-    Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert     
-	
+    $certificateSTSThumbprint = (Import-PfxCertificate -Exportable -Password $_certPassword -CertStoreLocation cert:\localmachine\my -FilePath $STScert).thumbprint
 
 	if ($_PublicCert) {
 		#install the WAP certificate
@@ -159,10 +160,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 		$CertificateWAPThumbprint = (dir Cert:\LocalMachine\My | where {$_.subject -match $CertificateWAPsubject})[0].thumbprint
  
  	}
-
-	#Get thumbprint of ADFS certificate
-	$certificateSTSThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
- 
+	#endregion
+	
+	#region#   Install and populate Reverse Proxy
 	# install WAP
     Install-WebApplicationProxy –CertificateThumbprint $certificateSTSThumbprint -FederationServiceName $_stsServiceName -FederationServiceTrustCredential $_DomainCreds
  
@@ -173,9 +173,9 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	Add-WebApplicationProxyApplication -Name 'Skype Meet' -ExternalPreAuthentication PassThrough -ExternalUrl "https://meet.$_Sipdomain/" -BackendServerUrl ("https://meet."+$_Sipdomain+":4443/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Office Web Apps Server' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$OfficeWebAppsRoot$_Sipdomain/" -BackendServerUrl ("https://"+$OfficeWebAppsRoot+$_Sipdomain+"/") -ExternalCertificateThumbprint $CertificateWAPThumbprint
 	Add-WebApplicationProxyApplication -Name 'Federation service' -ExternalPreAuthentication PassThrough -ExternalUrl "https://$_stsServiceName/" -BackendServerUrl ("https://"+$_stsServiceName+"/") -ExternalCertificateThumbprint $certificateSTSThumbprint
- 
+	#endregion
 
-	########################################Install Freeswitch PSTN Gateway
+	#region#   Install Freeswitch PSTN Gateway
 	$Newconfig = 'C:\Program Files\FreeSWITCH\conf\freeswitch.xml'
 	#$DomainName = "uctech.uk"
 	#$FrontEnd = "VM-SFB-FE01"
@@ -226,8 +226,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 	#Start Freeswith service
 	Set-Service FreeSWITCH -StartupType Automatic
 	Start-Service FreeSWITCH
-	################################################End Freeswitch PSTN gateway config
-
+	#endregion################################################End Freeswitch PSTN gateway config
+	
 	######Copy Xlite
 	copy-Item "G:\X-Lite*.exe" -Destination C:\Users\$_Username\Desktop\X-Lite.exe -ErrorAction Continue -Force
 	
