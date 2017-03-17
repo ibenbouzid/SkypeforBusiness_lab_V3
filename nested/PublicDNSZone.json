@@ -44,51 +44,51 @@
       },
       "dependsOn": []
     },
-    {
-      "type": "Microsoft.Network/dnszones/NS",
-      "name": "[variables('NS_@_name')]",
-      "apiVersion": "2016-04-01",
-      "properties": {
-        "TTL": 172800,
-        "NSRecords": [
-          {
-            "nsdname": "ns1-01.azure-dns.com."
-          },
-          {
-            "nsdname": "ns2-01.azure-dns.net."
-          },
-          {
-            "nsdname": "ns3-01.azure-dns.org."
-          },
-          {
-            "nsdname": "ns4-01.azure-dns.info."
-          }
-        ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Network/dnszones/SOA",
-      "name": "[variables('SOA_@_name')]",
-      "apiVersion": "2016-04-01",
-      "properties": {
-        "TTL": 3600,
-        "SOARecord": {
-          "email": "azuredns-hostmaster.microsoft.com",
-          "expireTime": 2419200,
-          "host": "ns1-01.azure-dns.com.",
-          "minimumTTL": 300,
-          "refreshTime": 3600,
-          "retryTime": 300,
-          "serialNumber": 1
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
-      ]
-    },
+    //{
+    //  "type": "Microsoft.Network/dnszones/NS",
+    //  "name": "[variables('NS_@_name')]",
+    //  "apiVersion": "2016-04-01",
+    //  "properties": {
+    //    "TTL": 172800,
+    //    "NSRecords": [
+    //      {
+    //        "nsdname": "ns1-01.azure-dns.com."
+    //      },
+    //      {
+    //        "nsdname": "ns2-01.azure-dns.net."
+    //      },
+    //      {
+    //        "nsdname": "ns3-01.azure-dns.org."
+    //      },
+    //      {
+    //        "nsdname": "ns4-01.azure-dns.info."
+    //      }
+    //    ]
+    //  },
+    //  "dependsOn": [
+    //    "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+    //  ]
+    //},
+    //{
+    //  "type": "Microsoft.Network/dnszones/SOA",
+    //  "name": "[variables('SOA_@_name')]",
+    //  "apiVersion": "2016-04-01",
+    //  "properties": {
+    //    "TTL": 3600,
+    //    "SOARecord": {
+    //      "email": "azuredns-hostmaster.microsoft.com",
+    //      "expireTime": 2419200,
+    //      "host": "ns1-01.azure-dns.com.",
+    //      "minimumTTL": 300,
+    //      "refreshTime": 3600,
+    //      "retryTime": 300,
+    //      "serialNumber": 1
+    //    }
+    //  },
+    //  "dependsOn": [
+    //    "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+    //  ]
+    //},
     {
       "type": "Microsoft.Network/dnszones/CNAME",
       "name": "[variables('CNAME_sip')]",
