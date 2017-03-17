@@ -41,6 +41,7 @@
     <None Include="images\SfB2016.jpg" />
     <None Include="images\SfBServer2015.jpg" />
     <None Include="metadata.json" />
+    <None Include="nested\PublicDNSZone.json" />
     <None Include="nested\Shared.json" />
     <None Include="nested\VM-deploy-EDGE.json" />
     <None Include="nested\VM-deploy-WAP.json" />

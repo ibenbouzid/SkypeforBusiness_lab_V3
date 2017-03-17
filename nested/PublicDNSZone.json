@@ -1,0 +1,215 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "DnsZoneName": {
+      "metadata": {
+        "description": "The DNS Zone Name you own and used to store your skype records"
+      },
+      "defaultValue": "ImadSfblab.uk",
+      "type": "String"
+    },
+    "LabDnsCname": {
+      "metadata": {
+        "description": "Single CName to reach your single Lab IP address"
+      },
+      "defaultValue": "ImadSfblab.westeurope.cloudapp.azure.com.",
+      "type": "String"
+    }
+  },
+  "variables": {
+    "NS_@_name": "[concat(parameters('DnsZoneName'), '/@')]",
+    "SOA_@_name": "[concat(parameters('DnsZoneName'), '/@')]",
+    "CNAME_sip": "[concat(parameters('DnsZoneName'), '/sip')]",
+    "CNAME_webext": "[concat(parameters('DnsZoneName'), '/webext')]",
+    "CNAME_dialin": "[concat(parameters('DnsZoneName'), '/dialin')]",
+    "CNAME_meet": "[concat(parameters('DnsZoneName'), '/meet')]",
+    "CNAME_lyncdiscover": "[concat(parameters('DnsZoneName'), '/lyncdiscover')]",
+    "CNAME_sts": "[concat(parameters('DnsZoneName'), '/sts')]",
+    "SRV__sipfederationtls": "[concat(parameters('DnsZoneName'), '/_sipfederationtls._tcp')]",
+    "SRV__sip": "[concat(parameters('DnsZoneName'), '/_sip._tls')]",
+    "SharedCname": "[concat('sip.', parameters('DnsZoneName'), '.')]",
+    //"LabCname": "[concat(parameters('LabDnsPrefix'), '.westeurope.cloudapp.azure.com.')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/dnszones",
+      "name": "[parameters('DnsZoneName')]",
+      "apiVersion": "2016-04-01",
+      "location": "global",
+      "tags": {},
+      "properties": {
+        "maxNumberOfRecordSets": 5000,
+        "numberOfRecordSets": 10
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Network/dnszones/NS",
+      "name": "[variables('NS_@_name')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 172800,
+        "NSRecords": [
+          {
+            "nsdname": "ns1-01.azure-dns.com."
+          },
+          {
+            "nsdname": "ns2-01.azure-dns.net."
+          },
+          {
+            "nsdname": "ns3-01.azure-dns.org."
+          },
+          {
+            "nsdname": "ns4-01.azure-dns.info."
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/SOA",
+      "name": "[variables('SOA_@_name')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "SOARecord": {
+          "email": "azuredns-hostmaster.microsoft.com",
+          "expireTime": 2419200,
+          "host": "ns1-01.azure-dns.com.",
+          "minimumTTL": 300,
+          "refreshTime": 3600,
+          "retryTime": 300,
+          "serialNumber": 1
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_sip')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[parameters('LabDnsCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_webext')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[variables('SharedCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_dialin')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[variables('SharedCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_meet')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[variables('SharedCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_lyncdiscover')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[variables('SharedCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/CNAME",
+      "name": "[variables('CNAME_sts')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "CNAMERecord": {
+          "cname": "[variables('SharedCname')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/SRV",
+      "name": "[variables('SRV__sipfederationtls')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "SRVRecords": [
+          {
+            "port": 5061,
+            "priority": 0,
+            "target": "[variables('SharedCname')]",
+            "weight": 10
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/dnszones/SRV",
+      "name": "[variables('SRV__sip')]",
+      "apiVersion": "2016-04-01",
+      "properties": {
+        "TTL": 3600,
+        "SRVRecords": [
+          {
+            "port": 5061,
+            "priority": 0,
+            "target": "[variables('SharedCname')]",
+            "weight": 10
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/dnszones', parameters('DnsZoneName'))]"
+      ]
+    }
+  ]
+ }
