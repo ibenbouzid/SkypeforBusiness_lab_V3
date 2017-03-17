@@ -75,6 +75,7 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 
     #connect to file share on storage account
     net use G: $_Share /u:$_User $_sasToken
+	New-Item G:\Share -type directory -ErrorAction SilentlyContinue
     
     #go to our packages scripts folder
     Set-Location $workingDir
@@ -101,11 +102,10 @@ Invoke-Command  -Credential $DomainCreds -Authentication CredSSP -ComputerName $
 
 		#get thumbprint of certificate
 		$certificateThumbprint = (get-childitem Cert:\LocalMachine\My | where {$_.subject -eq "CN="+$_stsServiceName} | Sort-Object -Descending NotBefore)[0].thumbprint
- 
-		#Export the STS certificate into the shared folder to be consumed by WAP
-		$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
-		Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
-  	}   
+   	}   
+	#Export the STS certificate into the shared folder to be consumed by WAP
+	$STScert = 'G:\Share\sts.'+$_DomainName+'.pfx'
+	Export-pfxCertificate -Cert (get-childitem Cert:\LocalMachine\My\$certificateThumbprint) -FilePath $STScert -Password $_certPassword -Force
 	#endregion 
 	
 
