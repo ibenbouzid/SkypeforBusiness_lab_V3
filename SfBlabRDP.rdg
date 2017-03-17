@@ -12,6 +12,19 @@
       <password />
       <domain>LabXXXX</domain>
     </logonCredentials>
+    <localResources inherit="None">
+      <audioRedirection>Client</audioRedirection>
+      <audioRedirectionQuality>Dynamic</audioRedirectionQuality>
+      <audioCaptureRedirection>Record</audioCaptureRedirection>
+      <keyboardHook>FullScreenClient</keyboardHook>
+      <redirectClipboard>True</redirectClipboard>
+      <redirectDrives>False</redirectDrives>
+      <redirectDrivesList />
+      <redirectPrinters>False</redirectPrinters>
+      <redirectPorts>False</redirectPorts>
+      <redirectSmartCards>True</redirectSmartCards>
+      <redirectPnpDevices>False</redirectPnpDevices>
+    </localResources>
     <displaySettings inherit="None">
       <liveThumbnailUpdates>True</liveThumbnailUpdates>
       <allowThumbnailSessionInteraction>False</allowThumbnailSessionInteraction>
