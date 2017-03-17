@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RDCMan programVersion="2.7" schemaVersion="3">
+  <file>
+    <credentialsProfiles />
+    <properties>
+      <expanded>True</expanded>
+      <name>SfBlab</name>
+    </properties>
+    <logonCredentials inherit="None">
+      <profileName scope="Local">Custom</profileName>
+      <userName>adminname</userName>
+      <password />
+      <domain>LabXXXX</domain>
+    </logonCredentials>
+    <displaySettings inherit="None">
+      <liveThumbnailUpdates>True</liveThumbnailUpdates>
+      <allowThumbnailSessionInteraction>False</allowThumbnailSessionInteraction>
+      <showDisconnectedThumbnails>True</showDisconnectedThumbnails>
+      <thumbnailScale>1</thumbnailScale>
+      <smartSizeDockedWindows>True</smartSizeDockedWindows>
+      <smartSizeUndockedWindows>False</smartSizeUndockedWindows>
+    </displaySettings>
+    <server>
+      <properties>
+        <displayName>VM-SFB-AD</displayName>
+        <name>'yourRgName'.westeurope.cloudapp.azure.com</name>
+      </properties>
+      <connectionSettings inherit="None">
+        <connectToConsole>False</connectToConsole>
+        <startProgram />
+        <workingDir />
+        <port>33891</port>
+        <loadBalanceInfo />
+      </connectionSettings>
+    </server>
+    <server>
+      <properties>
+        <displayName>VM-SFB-ADFS</displayName>
+        <name>'yourRgName'.westeurope.cloudapp.azure.com</name>
+      </properties>
+      <connectionSettings inherit="None">
+        <connectToConsole>False</connectToConsole>
+        <startProgram />
+        <workingDir />
+        <port>33893</port>
+        <loadBalanceInfo />
+      </connectionSettings>
+    </server>
+    <server>
+      <properties>
+        <displayName>VM-SFB-EDGE01</displayName>
+        <name>'yourRgName'dmz.westeurope.cloudapp.azure.com</name>
+      </properties>
+      <connectionSettings inherit="None">
+        <connectToConsole>False</connectToConsole>
+        <startProgram />
+        <workingDir />
+        <port>33895</port>
+        <loadBalanceInfo />
+      </connectionSettings>
+    </server>
+    <server>
+      <properties>
+        <displayName>VM-SFB-FE</displayName>
+        <name>'yourRgName'.westeurope.cloudapp.azure.com</name>
+      </properties>
+      <connectionSettings inherit="None">
+        <connectToConsole>False</connectToConsole>
+        <startProgram />
+        <workingDir />
+        <port>33892</port>
+        <loadBalanceInfo />
+      </connectionSettings>
+    </server>
+    <server>
+      <properties>
+        <displayName>VM-SFB-RP01</displayName>
+        <name>'yourRgName'dmz.westeurope.cloudapp.azure.com</name>
+      </properties>
+      <connectionSettings inherit="None">
+        <connectToConsole>False</connectToConsole>
+        <startProgram />
+        <workingDir />
+        <port>33894</port>
+        <loadBalanceInfo />
+      </connectionSettings>
+    </server>
+  </file>
+  <connected />
+  <favorites />
+  <recentlyUsed />
+</RDCMan>

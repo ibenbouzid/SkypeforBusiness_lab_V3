@@ -66,6 +66,7 @@
     <None Include="scripts\SfB-Install.ps1" />
     <None Include="scripts\Skype2016-Install.ps1" />
     <None Include="scripts\WAP-Install.ps1" />
+    <None Include="SfBlabRDP.rdg" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
