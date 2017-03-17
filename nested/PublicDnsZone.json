@@ -4,7 +4,7 @@
   "parameters": {
     "DnsZoneName": {
       "metadata": {
-        "description": "The DNS Zone Name you own and used to store your skype records"
+        "description": "The DNS Zone Name you own and used to store your skype records "
       },
       "defaultValue": "ImadSfblab.uk",
       "type": "String"
@@ -29,7 +29,7 @@
     "SRV__sipfederationtls": "[concat(parameters('DnsZoneName'), '/_sipfederationtls._tcp')]",
     "SRV__sip": "[concat(parameters('DnsZoneName'), '/_sip._tls')]",
     "SharedCname": "[concat('sip.', parameters('DnsZoneName'), '.')]",
-    //"LabCname": "[concat(parameters('LabDnsPrefix'), '.westeurope.cloudapp.azure.com.')]"
+    // "LabCname": "[concat(parameters('LabDnsPrefix'), '.westeurope.cloudapp.azure.com.')]"
   },
   "resources": [
     {
