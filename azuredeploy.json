@@ -91,6 +91,7 @@
     "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
     "dnsPrefix": "[resourceGroup().name]",
+    "LabCname": "[concat(variables('dnsPrefix'), '.', resourceGroup().location,'.cloudapp.azure.com.')]",
     "SipDomain": "[parameters('domainName')]",
     "AVSetName": [ "AvailabilitySet-INT", "AvailabilitySet-DMZ" ],
     "LoadBalancerName": [ "LB-INT", "LB-DMZ" ],
@@ -138,6 +139,7 @@
       "EdgeExtIP": "[variables('DMZEXT-IPaddr')[1]]"
     },
     "tojoindomain": [ "VM-SFB-FE01", "VM-SFB-ADFS01", "VM-SFB-CL1" ],
+    "PublicDnsZoneTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/PublicDnsZone.json')]",
     "Shared-ResourcesTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/Shared.json')]",
     "VM_deployTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-deploy.json')]",
     "VM_deployWAPTemplateUri": "[concat(variables('_artifactsLocation'),'/nested/VM-deploy-WAP.json')]",
@@ -153,6 +155,27 @@
 
   },
   "resources": [
+    {
+      "name": "PublicDnsZone",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('PublicDnsZoneTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "DnsZoneName": {
+            "value": "[variables('SipDomain')]"
+          },
+          "LabDnsCname": {
+            "value": "[variables('LabCname')]"
+          }
+        }
+      }
+    },
     {
       "name": "Shared-Resources",
       "type": "Microsoft.Resources/deployments",
