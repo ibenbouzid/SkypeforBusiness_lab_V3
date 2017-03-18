@@ -7,7 +7,7 @@
       "metadata": {
         "description": "The Name of the Load Balancer"
       },
-      "defaultValue": "VM-ADDS"
+      "defaultValue": "SFB-VM-AD01"
     },
     "VMNicIPAddress": {
       "type": "string",
@@ -18,36 +18,42 @@
     },
     "VnetName": {
       "type": "string",
+      "defaultValue":"Vnet1",
       "metadata": {
         "description": "The Front End Config of the Load Balancer"
       }
     },
     "Vnet1Prefix": {
       "type": "string",
+      "defaultValue": "10.0.0.0/16",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format"
       }
     },
     "Vnet2Prefix": {
       "type": "string",
+      "defaultValue": "192.168.0.0/16",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format"
       }
     },
     "Vnet1Subnet1Name": {
       "type": "string",
+      "defaultValue": "Subnet-INT",
       "metadata": {
         "description": "The IP address of the new AD VM"
       }
     },
     "Vnet1Subnet2Name": {
       "type": "string",
+      "defaultValue": "Subnet-DMZ-INT",
       "metadata": {
         "description": "The IP address of the new AD VM"
       }
     },
     "Vnet1Subnet3Name": {
       "type": "string",
+      "defaultValue": "Subnet-DMZ-EXT",
       "metadata": {
         "description": "The IP address of the new AD VM"
       }
@@ -71,7 +77,7 @@
       "metadata": {
         "description": "The address range of the subnet created in the new VNET"
       },
-      "defaultValue": "10.0.1.0/24"
+      "defaultValue": "192.168.0.0/24"
     },
     "DomainName": {
       "type": "string",
@@ -104,10 +110,10 @@
       }
     },
     "_ShareLocation": {
-      "type": "string",
+      "type": "string"
     },
     "_ShareSasToken": {
-      "type": "string",
+      "type": "string"
     },
     "_artifactsLocation": {
       "type": "string",
