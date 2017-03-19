@@ -110,10 +110,10 @@
       }
     },
     "_ShareLocation": {
-      "type": "string"
+      "type": "string",
     },
     "_ShareSasToken": {
-      "type": "string"
+      "type": "string",
     },
     "_artifactsLocation": {
       "type": "string",
