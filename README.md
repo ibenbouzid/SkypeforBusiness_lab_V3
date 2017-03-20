@@ -1,9 +1,9 @@
 # Azure SkypeforBusiness lab V3
-Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway. It creates Create an On-prem Skype for Business 2015 deployment ready to integrate with Cloud PBX
+Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway. It creates an On-prem Skype for Business 2015 deployment ready to integrate with Cloud PBX
 
 ## Virtual Lab Topology
 
-This version V3 focus on Skype for Business CloudPBX with On-premise PSTN Connectivity Via On-Prem deployment which includes folowing components:
+The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-premise PSTN Connectivity Via On-Prem Skype for Business deployment. It includes folowing components:
 <a >
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg"/>
 </a>
