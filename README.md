@@ -12,7 +12,7 @@ The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-
 - **VM-SFB-ADFS01**: Active Directory Federation Services server used for SSO with Azure Active Directory
 - **VM-SFB-RP01**: Reverse Proxy to publish Federation service and Skype URLs. It also plays the role of **PSTN Gateway** leveraging **Freeswitch** an open-source telephony platform and **X-lite** to simulate PSTN calls
 - **VM-SFB-EDGE01**: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
-- **Azure DNS Zone**: A Public DNS zone wich includes ADFS and Skype records. You still need to own or buy a domain, check post deployment guidlines. To use Azure DNS, you must post deployment redirect your DNS registrar to Azure NS. Check here for more details : https://docs.microsoft.com/en-us/azure/dns/dns-domain-delegation
+- **Azure DNS Zone**: A Public DNS zone wich includes ADFS and Skype records. You still need to own or buy a domain, check post deployment guidlines.
 
 ## How to Deploy
 This Azure template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem virtual lab, mainly for training and test purpose. 
@@ -61,7 +61,10 @@ Cert folder will include your public certificates.
 + Silverlight 64 bit : http://go.microsoft.com/fwlink/?LinkID=229321
 + Freeswitch : http://files.freeswitch.org/windows_installer/installer/x64/FreeSWITCH-1.6.15-x64-Release.msi
 + X-lite 64 bit : http://counterpath.s3.amazonaws.com/downloads/X-Lite_4.9.8_84253.exe
-+ Windows update (KB2919355, KB2919442, KB2982006) :
++ Windows update : 
+	+ [KB2919355](https://www.microsoft.com/en-gb/download/details.aspx?id=42334;), 
+	+ [KB2919442](https://www.microsoft.com/en-gb/download/details.aspx?id=42153),
+	+ [KB2982006](http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694) :
 
 	https://www.microsoft.com/en-gb/download/details.aspx?id=42334;
 
@@ -116,3 +119,18 @@ You will have to fill some parameters like your storage account name and the Sha
 </a>
 
 ## Post deplyoment tasks
+
++Connect to VM-SFB-AD01 verify the DNS entries are correct and users are created under sfbusers OU
++Connect to VM-SFB-FE01 open Skype control pannel and verify that users are enabled for skype, verify that all skype services are started.
++Connect to VM-SFB-EDGE01 verify that all skype services are running
++Connect to VM-SFB-RP01 open *Remote Access Management* console and verify that skype url's are published
++Open your Azure DNS zone that have been created verify all records are present and copy the FQDN of your name servers
++Go to your Domain registrar and redirect your zone to Azure DNS using the Azure Name Servers. Check here for more details : https://docs.microsoft.com/en-us/azure/dns/dns-domain-delegation
++Try to ping your skype url's and verify that it resovle your DMZ load balencer public IP.
++Open your skype for business client and try to login with alias : pgas@yourdomain.com with the password you created in the parameters
++If the connection is sucessful try the same with your mobile
++Connect to VM-SFB-RP01 Install X-lite with the installer on the descktop and connect to SIPURI: 2000, password: 2000, Domain:10.0.0.7
++Try to call extension 1001 and verify that pgas@yourdomain.com skype clients ring.
++If all thoses steps are successful connect to VM-SFB-AD01 install AzureADconnect with the msi on the desktop and start configuring your Hybrid environement.
+
+You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) here for configuring your Custom domain. 
