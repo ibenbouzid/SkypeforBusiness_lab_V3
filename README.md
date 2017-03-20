@@ -5,7 +5,7 @@ Azure template for Skype for Business lab deployment with Edge server, ADFS and 
 
 The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-premise PSTN Connectivity Via On-Prem Skype for Business deployment. It includes folowing components:
 <a >
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg" width="958" height="800"/>
+<img src ="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg" width="762" height="595"/>
 </a>
 - **VM-SFB-AD01**: Active Directory Domain Controller, Certificate Authority and Internal DNS roles
 - **VM-SFB-FE01**: Skype for Business Front End Standard Edition including Mediation server
@@ -45,7 +45,7 @@ After creating a storage account name you need to create a Fileshare named **sky
 The folder structure **skype** should look like this:
 
 <a >
-src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/FolderStructure.jpg" width="958" height="800"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/FolderStructure.jpg" width="958" height="800"/>
 </a>
 
 Cert folder will include your public certificates.
@@ -101,7 +101,7 @@ You will have to fill some parameters like your storage account name and the Sha
  How to get the Storage Access Key:
 
 <a >
-src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/AccessKey.png" width="833" height="413"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/AccessKey.png" width="833" height="413"/>
 </a>
 
 ## Post deplyoment tasks
