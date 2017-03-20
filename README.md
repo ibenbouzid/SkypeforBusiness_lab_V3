@@ -23,7 +23,7 @@ The Azure template will perform following tasks:
 
 Before starting the deployment there is some steps to follow:
 
-1. (**StorageAccount**)(/README.md#storage-account-and-fileshare): Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
+1. Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
 2. Download needed software and put everything in the **Skype** fileshare
 3. Depending on whether you want to implement Hybrid connectivity with Office365 it is needed to request public **certificate** from a public CA.(see below for guidlines)
 4. Then Click the "Azure Deploy" button below. You need to be signed to your Azure tenant otherwise a signin request will be prompted.
