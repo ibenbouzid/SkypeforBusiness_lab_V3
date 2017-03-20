@@ -12,22 +12,22 @@ The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-
 - **VM-SFB-ADFS01**: Active Directory Federation Services server used for SSO with Azure Active Directory
 - **VM-SFB-RP01**: Reverse Proxy to publish Federation service and Skype URLs. It also plays the role of **PSTN Gateway** leveraging **Freeswitch** an open-source telephony platform and **X-lite** to simulate PSTN calls
 - **VM-SFB-EDGE01**: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
-- **Azure DNS** zone: as Public DNS zone wich includes Skype records. It is needed post deployment to redirect your DNS registrar to Azure NS  
+- **Azure DNS Zone**: A Public DNS zone wich includes ADFS and Skype records. You still need to own or buy a domain, check post deployment guidlines. To use Azure DNS, you must post deployment redirect your DNS registrar to Azure NS. Check here for more details : https://docs.microsoft.com/en-us/azure/dns/dns-domain-delegation
 
 ## How to Deploy
 This Azure template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem virtual lab, mainly for training and test purpose. 
 The Azure template will perform following tasks:
-- Create infrastructure resources (Network components, Loadbalencers, VM's)
-- Perform instalation of VM extensions( DSC, script) these will include "windows feature" instalation and software.
-- configuration and user creation are performed trough VM custum script extensions.
+- Create infrastructure resources (Network Components, Loadbalencers, VM's)
+- Perform instalation of VM extensions( DSC, script) these will include "windows feature" and software instalation.
+- Configuration and user creation are performed trough VM custum script extensions.
 
 Before starting the deployment there is some steps to follow:
 
 1. Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
 2. Download needed software and put everything in the **skype** fileshare
 3. Depending on whether you want to implement Hybrid connectivity with Office365 it is needed to request public **certificate** from a public CA.(see below for guidlines)
-4. Then Click the "Azure Deploy" button below. You need to be signed to your Azure tenant otherwise a signin request will be prompted.
-5. Fill parameters with recommended guidlines then start deployment by clicking the purshase button.(The deployment is free :) nothing to purshase except the normal VM consumption prices) 
+4. Then Click the "Deploy to Azure" button below. You need to be signed to your Azure tenant otherwise a signin request will be prompted.
+5. Fill parameters with recommended guidlines then start deployment by clicking the purshase button. (The deployment is free :) nothing to purshase except the normal VM consumption prices) 
 
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V3%2Fmaster%2Fazuredeploy.json" target="_blank">
@@ -41,16 +41,17 @@ Before starting the deployment there is some steps to follow:
 You can either deploy through the azure deploy button (which take less time) or via the azuredeploy.ps1 powershell script which requires to previously setup your machine with the right Azure modules.
 
 ## Storage Account and Fileshare
-The folder structure inside your storage account should look like this
+After creating a storage account name you need to create a Fileshare named **skype** in lowercase.
+The folder structure **skype** should look like this:
 
 <a >
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/FolderStructure.jpg"/>
 </a>
 
-Here is SfBServer2015 and SfB2016 folders components
+Cert folder will include your public certificates.
+
 <a >
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SfBServer2015.jpg"/>
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SfB2016.jpg"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/certificates.jpg"/>
 </a>
 
 
