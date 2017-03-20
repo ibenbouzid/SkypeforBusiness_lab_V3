@@ -1,33 +1,33 @@
 # Azure SkypeforBusiness lab V3
-Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway
+Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway. It creates Create an On-prem Skype for Business 2015 deployment ready to integrate with Cloud PBX
 
-# Create an On-prem Skype for Business 2015 Lab ready to integrate with Cloud PBX
+## Virtual Lab Topology
 
-This template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem deployment lab, mainly for training and test purpose. 
 This version V3 focus on Skype for Business CloudPBX with On-premise PSTN Connectivity Via On-Prem deployment which includes folowing components:
 <a >
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg"/>
 </a>
-- VM-SFB-AD01: Active Directory, Certificate Authority, Internal DNS
-- VM-SFB-FE01: Skype for Business Front End Standard Edition including Mediation server
-- VM-SFB-ADFS01: Adctive Directory Federation Service server used for SSO with Azure Active Directory
-- VM-SFB-RP01: Reverse Proxy to publish Federation service and Skype URLs, Includes Freeswitch as PSTN Gateway and X-lite to simulate PSTN calls
-- VM-SFB-EDGE01: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
-- Azure DNS zone as Public DNS zone wich includes Skype records. It is needed post deployment to redirect your DNS registrar to Azure NS  
+- **VM-SFB-AD01**: Active Directory, Certificate Authority, Internal DNS
+- **VM-SFB-FE01**: Skype for Business Front End Standard Edition including Mediation server
+- **VM-SFB-ADFS01**: Adctive Directory Federation Service server used for SSO with Azure Active Directory
+- **VM-SFB-RP01**: Reverse Proxy to publish Federation service and Skype URLs, Includes Freeswitch as PSTN Gateway and X-lite to simulate PSTN calls
+- **VM-SFB-EDGE01**: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
+- **Azure DNS** zone: as Public DNS zone wich includes Skype records. It is needed post deployment to redirect your DNS registrar to Azure NS  
 
-The Azure template will create the VM's, perform the installation of domain controller, windows feature , SfB software and perform all the configuration up to the creation of users. Azure DSC and scrpit extentions are leveraged.
+## How to Deploy
+This Azure template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem virtual lab, mainly for training and test purpose. 
+The Azure template will perform following tasks:
+- Create infrastructure resources (Network components, Loadbalencers, VM's)
+- Perform instalation of VM extensions( DSC, script) these will include "windows feature" instalation and software.
+- configuration and user creation are performed trough VM custum script extensions.
 
 Before starting the deployment there is some steps to follow:
 
-1. Create an azure storage account with a fileshare named "skype" where Skype for Business software (content of the ISO) will be accessible.
-2. Create a correct folder structure where to put SfB software see below
-3. Download Skype for Business 2015 eval software and put the content of the ISO in "\skype\SfBserver2015\"
-4. Download Skype Basic or Skype 2016 eval, rename it to "setup.exe" and put it in "\skype\SfB2016\"
-5. Download Silverlight_x64.exe and Azure AD connect and put it in "\skype" folder
-6. Download 3 mandatory Windows Server 2012 updtates (KB2919355, KB2919442, KB2982006) and put them into "\Skype" folder
-7. Depending on whether Hybrid is needed or not a certificate request for public CA will be needed prior to installation (see below for guidlines)
-7. Then Click the button below to deploy
-8. You will have to fill some parameters like your storage account name and the sastoken as well as some other mandatory parameters like the dns prefix of your lab. Please remember to use only numbers plus lower case letters for your resource group name because it is concatenated to create a storage account name which support only lower case. Use Western Europe instead of Uk south it doesn't support yet the types of VM's used.
+1. (**StorageAccount**)(/README.md#Storage Account and Fileshare): Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
+2. Download needed software and put everything in the **Skype** fileshare
+3. Depending on whether you want to implement Hybrid connectivity with Office365 it is needed to request public **certificate** from a public CA.(see below for guidlines)
+4. Then Click the "Azure Deploy" button below. You need to be signed to your Azure tenant otherwise a signin request will be prompted.
+5. Fill parameters with recommended guidlines then start deployment by clicking the purshase button.(The deployment is free :) nothing to purshase except the normal VM consumption prices) 
 
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fibenbouzid%2FSkypeforBusiness_lab_V3%2Fmaster%2Fazuredeploy.json" target="_blank">
@@ -40,7 +40,7 @@ Before starting the deployment there is some steps to follow:
 
 You can either deploy through the azure deploy button (which take less time) or via the azuredeploy.ps1 powershell script which requires to previously setup your machine with the right Azure modules.
 
-# Storage Account and Folder Structure
+# Storage Account and Fileshare
 The folder structure inside your storage account should look like this
 
 <a >
@@ -54,7 +54,7 @@ Here is SfBServer2015 and SfB2016 folders components
 </a>
 
 
-# Software Download
+## Software Download
 
 You can download Skype for business eval version here :
 https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server
@@ -65,7 +65,7 @@ https://products.office.com/en-gb/skype-for-business/download-app?tab=tabs-3
 Azure AD connect :
 https://www.microsoft.com/en-us/download/details.aspx?id=47594
 
-# Certificate Guidlines
+## Certificate Guidlines
 The lab will need 3 certificates that will be exposed externally:
 - sts.yourdomain.com.pfx (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
 - wap.yourdomain.com.pfx (SAN for Skype urls:SN:webext.yourdomain.com CN:webext.yourdomain.com,dialin.yourdomain.com,meet.yourdomain.com,lyncdiscover.yourdomain.com)
@@ -79,7 +79,10 @@ Because not all public CA's are deployed to servers but mainly client you could 
 
 Certificate names: please respect carefully the certificate names above and give care to the case otherwise your 3 houres deployment will be unsucessful. Thoses certificates should be in pfx format (except SSL_RootCA.crt) and use the same password. There is many ways to convert other certificates format to pfx just ask the web.
 
-# How to fillin parameters
+## How to fillin parameters
+You will have to fill some parameters like your storage account name and the ShareAccessKey as well as some other mandatory parameters below. 
+	- Please remember to use only numbers plus lower case letters for your resource group name because it is concatenated to create a storage account name which support only lower case. 
+	- Use Western Europe instead of Uk south it doesn't support yet the types of VM's used.
 
  "domainName": The FQDN of the AD Domain eg: contoso.com or adatum.local
      
