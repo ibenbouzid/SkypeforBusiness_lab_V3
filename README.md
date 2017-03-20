@@ -51,6 +51,7 @@ The folder structure **skype** should look like this:
 </a>
 <a >
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/certificates.jpg" width="100" height="100"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/certificates.jpg" width="100" height="100"/>
 </a>
 
 
