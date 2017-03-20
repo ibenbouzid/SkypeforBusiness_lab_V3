@@ -69,22 +69,24 @@ Cert folder will include your public certificates.
 
 ## Certificate Guidlines
 The lab will need 3 certificates that will be exposed externally:
-- sts.yourdomain.com.pfx (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
-- wap.yourdomain.com.pfx (SAN for Skype urls:SN:webext.yourdomain.com CN:webext.yourdomain.com,dialin.yourdomain.com,meet.yourdomain.com,lyncdiscover.yourdomain.com)
-- edge.yourdomain.com.pfx (SSL for Access edge : sip.yourdomain.com)
+- **sts.yourdomain.com.pfx** (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
+- **wap.yourdomain.com.pfx** (SAN for Skype urls:SN:webext.yourdomain.com CN:webext.yourdomain.com,dialin.yourdomain.com,meet.yourdomain.com,lyncdiscover.yourdomain.com)
+- **edge.yourdomain.com.pfx** (SSL for Access edge : sip.yourdomain.com)
+
+It is possible to order one certificate with **SN=sip.yourdomain.com** and include all the needed SAN's in the Common Name. In this case you should make 3 copie of this one and rename them into above names.
 
 For each of theses certificates the template gives you the option whether public or private. If Public is set to "false" the template will request a private CA from the domain controler. If public is set to "true" the template will expect that a public certificates is available and will try to download it from your storage account using the path "skype\cert"
 One could be set to public and others to private for example if you are not able to buy a SAN certificate for WAP you could get a free Public SSL for the federation service this will enable hybrid and ADFS SSO testing but not Shared sip configuration.
 
 It is possible to get free SSL through the Let's encrypt project : https://www.sslforfree.com/
-Because not all public CA's are deployed to servers but mainly client you could add your public root CA into the folder "Skype\cert" with the name "SSL_RootCA.crt"
+Not all public CA's are deployed into the root certificate store of servers but mainly deployed to client devices. If it is the case for your public Root CA you could add it into the folder "Skype\cert" with the name "SSL_RootCA.crt"
 
-Certificate names: please respect carefully the certificate names above and give care to the case otherwise your 3 houres deployment will be unsucessful. Thoses certificates should be in pfx format (except SSL_RootCA.crt) and use the same password. There is many ways to convert other certificates format to pfx just ask the web.
+**Certificate names**: please respect carefully the certificate names above and give care to the case otherwise your 3 houres deployment will be unsucessful. Thoses certificates should be in pfx format (except SSL_RootCA.crt) and they **MUST** use the same password. There is many ways to convert other certificates format to pfx just ask Cortana.
 
 ## How to fillin parameters
 You will have to fill some parameters like your storage account name and the ShareAccessKey as well as some other mandatory parameters below. 
-	- Please remember to use only numbers plus lower case letters for your resource group name because it is concatenated to create a storage account name which support only lower case. 
-	- Use Western Europe instead of Uk south it doesn't support yet the types of VM's used.
+	- Please remember to use only numbers plus lower case letters for your **resource group name** because it is concatenated to create a storage account name which support only lower case. 
+	- Use the right region like **Western Europe** instead of **Uk south** as some regions doesn't support yet the types of VM's used. Otherwise your deployment will pop up some errors before starting deployment.
 
  "domainName": The FQDN of the AD Domain eg: contoso.com or adatum.local
      
@@ -105,3 +107,10 @@ You will have to fill some parameters like your storage account name and the Sha
  "EdgePublicCertificate": True if using public certificate for Edge Server
 
  "CertificatePassword" : Only needed if at least one public certificate, should be the same password for all public certificate
+
+ How to get the Storage Access Key:
+ <a >
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/accesskey.jpg"/>
+</a>
+
+## Post deplyment tasks
