@@ -64,7 +64,9 @@ Cert folder will include your public certificates.
 + Windows update (KB2919355, KB2919442, KB2982006) :
 
 	https://www.microsoft.com/en-gb/download/details.aspx?id=42334;
+
 	https://www.microsoft.com/en-gb/download/details.aspx?id=42153;
+
 	http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694
 
 ## Certificate Guidlines
@@ -113,4 +115,4 @@ You will have to fill some parameters like your storage account name and the Sha
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/accesskey.png"/>
 </a>
 
-## Post deplyment tasks
+## Post deplyoment tasks
