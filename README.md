@@ -5,7 +5,7 @@ Azure template for Skype for Business lab deployment with Edge server, ADFS and 
 
 The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-premise PSTN Connectivity Via On-Prem Skype for Business deployment. It includes folowing components:
 <a >
-<img src ="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg" width="762" height="595"/>
+<img src ="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg" align="middle" width="762" height="595"/>
 </a>
 - **VM-SFB-AD01**: Active Directory Domain Controller, Certificate Authority and Internal DNS roles
 - **VM-SFB-FE01**: Skype for Business Front End Standard Edition including Mediation server
