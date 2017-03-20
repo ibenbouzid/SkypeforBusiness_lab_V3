@@ -110,7 +110,7 @@ You will have to fill some parameters like your storage account name and the Sha
 
  How to get the Storage Access Key:
  <a >
-<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/accesskey.jpg"/>
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/accesskey.png"/>
 </a>
 
 ## Post deplyment tasks
