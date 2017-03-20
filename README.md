@@ -123,4 +123,11 @@ You will have to fill some parameters like your storage account name and the Sha
 + Try to call extension 1001 and verify that pgas@yourdomain.com skype clients ring.
 + If all thoses steps are successful connect to VM-SFB-AD01 install AzureADconnect with the msi on the desktop and start configuring your Hybrid environement.
 
-You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) for configuring your Custom domain. 
+You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) for configuring your Custom domain.
+It is possible to connect Freeswitch to externat PSTN Providers post installation.
+In order to do that you have to modify *freeswitch.xml* file in the Reverse proxy located in *ProgramFiles/Freeswitch/conf/freeswithc.xml*. Then restart Freeswitch service.
+An example of PSTN poviders configuration is already there you just have to modify parameters SIP domain and credentials otherwise check for examples [here](https://wiki.freeswitch.org/wiki/SIP_Provider_Examples)
+
+## Known Issue
++ Microphone not working via RDP fro the windows 2016 reverse proxy
++ When the microphone is not enabled X-lite don't send DTMF. In order to remediate this issue configure X-lite to use Sip Info method instead of RF2833
