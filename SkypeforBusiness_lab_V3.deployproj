@@ -37,6 +37,7 @@
     <None Include="dsc\DnsSuffix.ps1.zip" />
     <None Include="dsc\Prereqs.ps1" />
     <None Include="dsc\Prereqs.ps1.zip" />
+    <None Include="images\cert.jpg" />
     <None Include="images\FolderStructure.jpg" />
     <None Include="images\SfB2016.jpg" />
     <None Include="images\SfBServer2015.jpg" />
