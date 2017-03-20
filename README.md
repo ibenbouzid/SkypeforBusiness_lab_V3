@@ -56,7 +56,7 @@ Cert folder will include your public certificates.
 
 
 ## Software Download
-+ Skype for business eval version (rename with SfBServer2015.iso) : https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server
++ Skype for business [eval version](https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server) (rename with SfBServer2015.iso)
 + Azure AD connect : https://www.microsoft.com/en-us/download/details.aspx?id=47594
 + Silverlight 64 bit : http://go.microsoft.com/fwlink/?LinkID=229321
 + Freeswitch : http://files.freeswitch.org/windows_installer/installer/x64/FreeSWITCH-1.6.15-x64-Release.msi
@@ -65,12 +65,6 @@ Cert folder will include your public certificates.
 	+ [KB2919355](https://www.microsoft.com/en-gb/download/details.aspx?id=42334;), 
 	+ [KB2919442](https://www.microsoft.com/en-gb/download/details.aspx?id=42153),
 	+ [KB2982006](http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694) :
-
-	https://www.microsoft.com/en-gb/download/details.aspx?id=42334;
-
-	https://www.microsoft.com/en-gb/download/details.aspx?id=42153;
-
-	http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694
 
 ## Certificate Guidlines
 The lab will need 3 certificates that will be exposed externally:
@@ -93,25 +87,16 @@ You will have to fill some parameters like your storage account name and the Sha
 	- Please remember to use only numbers plus lower case letters for your **resource group name** because it is concatenated to create a storage account name which support only lower case. 
 	- Use the right region like **Western Europe** instead of **Uk south** as some regions doesn't support yet the types of VM's used. Otherwise your deployment will pop up some errors before starting deployment.
 
- "domainName": The FQDN of the AD Domain eg: contoso.com or adatum.local
-     
- "adminUsername": The name of the Administrator of all your VM's and Domain Admin
-     
- "adminPassword": The password for the Administrator account: must be at least 12 caracters
-    
- "ShareLocation": the name of your azure storage account - not the url - eg "mystorage" where you created your "skype" folder with all the source files 
- 
- "ShareAccessKey": The token to used to access your storage account. You can find it on your storage account settings.
-
- "StsServiceName": The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate
-
- "STSPublicCertificate": True if using public certificate for Federation Service
-
- "WAPPublicCertificate": True if using public certificate for Skype URL's
-    
- "EdgePublicCertificate": True if using public certificate for Edge Server
-
- "CertificatePassword" : Only needed if at least one public certificate, should be the same password for all public certificate
+ - *domainName*: The FQDN of the AD Domain eg: contoso.com or adatum.local
+ - *adminUsername*: The name of the Administrator of all your VM's and Domain Admin
+ - *adminPassword*: The password for the Administrator account: must be at least 12 caracters
+ - *ShareLocation*: the name of your azure storage account - not the url - eg *mystorage* where you created your *skype* folder with all the source files 
+ - *ShareAccessKey*: The token to used to access your storage account. You can find it on your storage account settings.
+ - *StsServiceName*: The name of your ADFS service eg sts.contoso.com that is present in the SSL certificate
+ - *STSPublicCertificate*: True if using public certificate for Federation Service
+ - *WAPPublicCertificate*: True if using public certificate for Skype URL's
+ - *EdgePublicCertificate*: True if using public certificate for Edge Server
+ - *CertificatePassword* : Only needed if at least one public certificate, should be the same password for all public certificate
 
  How to get the Storage Access Key:
  <a >
@@ -133,4 +118,4 @@ You will have to fill some parameters like your storage account name and the Sha
 + Try to call extension 1001 and verify that pgas@yourdomain.com skype clients ring.
 + If all thoses steps are successful connect to VM-SFB-AD01 install AzureADconnect with the msi on the desktop and start configuring your Hybrid environement.
 
-You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) here for configuring your Custom domain. 
+You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) for configuring your Custom domain. 
