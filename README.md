@@ -1,7 +1,7 @@
 # Azure SkypeforBusiness lab V3
 Azure template for Skype for Business lab deployment with Edge server, ADFS and Freeswitch PSTN Gateway
 
-# Create a Skype for Business 2015 Standard Lab
+# Create an On-prem Skype for Business 2015 Lab ready to integrate with Cloud PBX
 
 This template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem deployment lab, mainly for training and test purpose. 
 This version V3 focus on Skype for Business CloudPBX with On-premise PSTN Connectivity Via On-Prem deployment which includes folowing components:
