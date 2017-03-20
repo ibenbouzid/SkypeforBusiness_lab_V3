@@ -120,17 +120,17 @@ You will have to fill some parameters like your storage account name and the Sha
 
 ## Post deplyoment tasks
 
-+Connect to VM-SFB-AD01 verify the DNS entries are correct and users are created under sfbusers OU
-+Connect to VM-SFB-FE01 open Skype control pannel and verify that users are enabled for skype, verify that all skype services are started.
-+Connect to VM-SFB-EDGE01 verify that all skype services are running
-+Connect to VM-SFB-RP01 open *Remote Access Management* console and verify that skype url's are published
-+Open your Azure DNS zone that have been created verify all records are present and copy the FQDN of your name servers
-+Go to your Domain registrar and redirect your zone to Azure DNS using the Azure Name Servers. Check here for more details : https://docs.microsoft.com/en-us/azure/dns/dns-domain-delegation
-+Try to ping your skype url's and verify that it resovle your DMZ load balencer public IP.
-+Open your skype for business client and try to login with alias : pgas@yourdomain.com with the password you created in the parameters
-+If the connection is sucessful try the same with your mobile
-+Connect to VM-SFB-RP01 Install X-lite with the installer on the descktop and connect to SIPURI: 2000, password: 2000, Domain:10.0.0.7
-+Try to call extension 1001 and verify that pgas@yourdomain.com skype clients ring.
-+If all thoses steps are successful connect to VM-SFB-AD01 install AzureADconnect with the msi on the desktop and start configuring your Hybrid environement.
++ Connect to VM-SFB-AD01 verify the DNS entries are correct and users are created under sfbusers OU
++ Connect to VM-SFB-FE01 open Skype control pannel and verify that users are enabled for skype, verify that all skype services are started.
++ Connect to VM-SFB-EDGE01 verify that all skype services are running
++ Connect to VM-SFB-RP01 open *Remote Access Management* console and verify that skype url's are published
++ Open your Azure DNS zone that have been created verify all records are present and copy the FQDN of your name servers
++ Go to your Domain registrar and redirect your zone to Azure DNS using the Azure Name Servers. Check here for more details : https://docs.microsoft.com/en-us/azure/dns/dns-domain-delegation
++ Try to ping your skype url's and verify that it resovle your DMZ load balencer public IP.
++ Open your skype for business client and try to login with alias : pgas@yourdomain.com with the password you created in the parameters
++ If the connection is sucessful try the same with your mobile
++ Connect to VM-SFB-RP01 Install X-lite with the installer on the descktop and connect to SIPURI: 2000, password: 2000, Domain:10.0.0.7
++ Try to call extension 1001 and verify that pgas@yourdomain.com skype clients ring.
++ If all thoses steps are successful connect to VM-SFB-AD01 install AzureADconnect with the msi on the desktop and start configuring your Hybrid environement.
 
 You could leverage [Offices 365 scripts](https://github.com/ibenbouzid/Office365Scripts) here for configuring your Custom domain. 
