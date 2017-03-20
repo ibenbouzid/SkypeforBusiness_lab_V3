@@ -66,6 +66,15 @@ https://products.office.com/en-gb/skype-for-business/download-app?tab=tabs-3
 Azure AD connect :
 https://www.microsoft.com/en-us/download/details.aspx?id=47594
 
+	• Skype for business eval version (rename with SfBServer2015.iso) : https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server
+	• Azure AD connect : https://www.microsoft.com/en-us/download/details.aspx?id=47594
+	• Silverlight 64 bit : http://go.microsoft.com/fwlink/?LinkID=229321
+	• X-lite 64 bit : http://counterpath.s3.amazonaws.com/downloads/X-Lite_4.9.8_84253.exe
+	• Windows update (KB2919355, KB2919442, KB2982006)
+	https://www.microsoft.com/en-gb/download/details.aspx?id=42334
+	https://www.microsoft.com/en-gb/download/details.aspx?id=42153
+	http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694
+
 ## Certificate Guidlines
 The lab will need 3 certificates that will be exposed externally:
 - sts.yourdomain.com.pfx (SSL for federation service url: whatever you want eg : sts.yourdomain.com)
