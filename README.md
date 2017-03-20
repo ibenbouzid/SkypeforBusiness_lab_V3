@@ -4,12 +4,16 @@ Azure template for Skype for Business lab deployment with Edge server, ADFS and 
 # Create a Skype for Business 2015 Standard Lab
 
 This template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem deployment lab, mainly for training and test purpose. 
-This the second focus on Skype Hybrid with Shared Sip config with Office 365 which includes :
-- VM-SFB-AD01 Active Directory
-- VM-SFB-FE01 Skype for Business Front End Standard Edition
-- VM-SFB-ADFS01 Adctive Directory Federation Service server mandatory for WAP reverse proxy deployment and used for SSO with Azure Active Directory
-- VM-SFB-RP01 Reverse Proxy that publish Federation service and Skype URLs
-- VM-SFB-EDGE01 Skype For Business EDGE Server fro remote connectivity, Hybrid and Federation purpose.
+This version V3 focus on Skype for Business CloudPBX with On-premise PSTN Connectivity Via On-Prem deployment which includes folowing components:
+<a >
+<img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg"/>
+</a>
+- VM-SFB-AD01: Active Directory, Certificate Authority, Internal DNS
+- VM-SFB-FE01: Skype for Business Front End Standard Edition including Mediation server
+- VM-SFB-ADFS01: Adctive Directory Federation Service server used for SSO with Azure Active Directory
+- VM-SFB-RP01: Reverse Proxy to publish Federation service and Skype URLs, Includes Freeswitch as PSTN Gateway and X-lite to simulate PSTN calls
+- VM-SFB-EDGE01: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
+- Azure DNS zone as Public DNS zone wich includes Skype records. It is needed post deployment to redirect your DNS registrar to Azure NS  
 
 The Azure template will create the VM's, perform the installation of domain controller, windows feature , SfB software and perform all the configuration up to the creation of users. Azure DSC and scrpit extentions are leveraged.
 

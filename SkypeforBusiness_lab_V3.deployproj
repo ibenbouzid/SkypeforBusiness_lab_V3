@@ -40,6 +40,7 @@
     <None Include="images\FolderStructure.jpg" />
     <None Include="images\SfB2016.jpg" />
     <None Include="images\SfBServer2015.jpg" />
+    <None Include="images\SkypeLab.jpg" />
     <None Include="metadata.json" />
     <None Include="nested\PublicDnsZone.json" />
     <None Include="nested\Shared.json" />
