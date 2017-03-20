@@ -7,10 +7,10 @@ The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-
 <a >
 <img src="https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master/images/SkypeLab.jpg"/>
 </a>
-- **VM-SFB-AD01**: Active Directory, Certificate Authority, Internal DNS
+- **VM-SFB-AD01**: Active Directory Domain Controller, Certificate Authority and Internal DNS roles
 - **VM-SFB-FE01**: Skype for Business Front End Standard Edition including Mediation server
-- **VM-SFB-ADFS01**: Adctive Directory Federation Service server used for SSO with Azure Active Directory
-- **VM-SFB-RP01**: Reverse Proxy to publish Federation service and Skype URLs, Includes Freeswitch as PSTN Gateway and X-lite to simulate PSTN calls
+- **VM-SFB-ADFS01**: Active Directory Federation Services server used for SSO with Azure Active Directory
+- **VM-SFB-RP01**: Reverse Proxy to publish Federation service and Skype URLs. It also plays the role of **PSTN Gateway** leveraging **Freeswitch** an open-source telephony platform and **X-lite** to simulate PSTN calls
 - **VM-SFB-EDGE01**: Skype For Business EDGE Server for remote connectivity, Hybrid and Federation purpose.
 - **Azure DNS** zone: as Public DNS zone wich includes Skype records. It is needed post deployment to redirect your DNS registrar to Azure NS  
 
@@ -23,7 +23,7 @@ The Azure template will perform following tasks:
 
 Before starting the deployment there is some steps to follow:
 
-1. (**StorageAccount**)(/README.md#Storage Account and Fileshare): Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
+1. (**StorageAccount**)(/README.md#storage-account-and-fileshare): Using your Azure Tenant, Create an azure storage account (Locally redundant LRS) with a fileshare named **skype** where Skype for Business software will be accessible.
 2. Download needed software and put everything in the **Skype** fileshare
 3. Depending on whether you want to implement Hybrid connectivity with Office365 it is needed to request public **certificate** from a public CA.(see below for guidlines)
 4. Then Click the "Azure Deploy" button below. You need to be signed to your Azure tenant otherwise a signin request will be prompted.
@@ -40,7 +40,7 @@ Before starting the deployment there is some steps to follow:
 
 You can either deploy through the azure deploy button (which take less time) or via the azuredeploy.ps1 powershell script which requires to previously setup your machine with the right Azure modules.
 
-# Storage Account and Fileshare
+## Storage Account and Fileshare
 The folder structure inside your storage account should look like this
 
 <a >
