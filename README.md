@@ -128,6 +128,6 @@ It is possible to connect Freeswitch to externat PSTN Providers post installatio
 In order to do that you have to modify *freeswitch.xml* file in the Reverse proxy located in *ProgramFiles/Freeswitch/conf/freeswithc.xml*. Then restart Freeswitch service.
 An example of PSTN poviders configuration is already there you just have to modify parameters SIP domain and credentials otherwise check for examples [here](https://wiki.freeswitch.org/wiki/SIP_Provider_Examples)
 
-## Known Issue
-+ Microphone not working via RDP fro the windows 2016 reverse proxy
+## Known Issues
++ Microphone not working via RDP for the windows 2016 reverse proxy
 + When the microphone is not enabled X-lite don't send DTMF. In order to remediate this issue configure X-lite to use Sip Info method instead of RF2833
