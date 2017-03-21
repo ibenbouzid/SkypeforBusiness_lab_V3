@@ -18,24 +18,24 @@
     },
     "VnetName": {
       "type": "string",
-      "defaultValue":"Vnet1",
       "metadata": {
         "description": "The Front End Config of the Load Balancer"
-      }
+      },
+      "defaultValue": "Vnet1"
     },
     "Vnet1Prefix": {
       "type": "string",
-      "defaultValue": "10.0.0.0/16",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format"
-      }
+      },
+      "defaultValue": "10.0.0.0/16"
     },
     "Vnet2Prefix": {
       "type": "string",
-      "defaultValue": "192.168.0.0/16",
       "metadata": {
         "description": "The address range of the new VNET in CIDR format"
-      }
+      },
+      "defaultValue": "192.168.0.0/16"
     },
     "Vnet1Subnet1Name": {
       "type": "string",
