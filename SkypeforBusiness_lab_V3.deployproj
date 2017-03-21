@@ -64,6 +64,7 @@
     <None Include="scripts\freeswitch.xml" />
     <None Include="scripts\New-ADUsers.csv" />
     <None Include="scripts\NewCertReq.ps1" />
+    <None Include="scripts\Pics.zip" />
     <None Include="scripts\SfB-Install.ps1" />
     <None Include="scripts\Skype2016-Install.ps1" />
     <None Include="scripts\WAP-Install.ps1" />
