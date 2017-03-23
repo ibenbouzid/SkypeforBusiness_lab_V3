@@ -236,6 +236,13 @@ Write-Verbose "Adding *.$DomainDNSName to local intranet zone @ $(Get-Date)"
 New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\Domains\$DomainDNSName" -ErrorAction Continue
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\Domains\$DomainDNSName" -Name * -Value 1 -Type DWord -ErrorAction Continue
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap" -Name IEHarden -Value 0 -Type DWord -ErrorAction Continue
+#Disable IEES Internet Explorer Enhenced security
+$AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
+$UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
+Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0
+Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0
+Stop-Process -Name Explorer
+Write-Host "IE Enhanced Security Configuration (ESC) has been disabled." -ForegroundColor Green
 
 #region Edge srever Config ################################################
 #Enable external Edge access and federation
