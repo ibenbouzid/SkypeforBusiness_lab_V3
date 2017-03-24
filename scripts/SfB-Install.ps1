@@ -319,7 +319,7 @@ Disable-WSManCredSSP -role server
 Invoke-WebRequest -Uri https://github.com/ibenbouzid/Office365Scripts/archive/master.zip -OutFile .\Office365Scripts.zip
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::ExtractToDirectory('.\Office365Scripts.zip','.')
-Copy-Item -Path ".\Office365Scripts-master" -Destination C:\Users\$UserName\Desktop\Scripts2 -Recurse -ErrorAction Continue
+Copy-Item -Path ".\Office365Scripts-master" -Destination C:\Users\$UserName\Desktop\Scripts -Recurse -ErrorAction Continue
 
 
 #The registery key modified earlier need a computer restart
