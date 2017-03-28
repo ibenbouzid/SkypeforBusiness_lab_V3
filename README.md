@@ -21,7 +21,7 @@ The intent of version V3 is to enable deployment of Office 365 CloudPBX with On-
 ## How to Deploy
 This Azure template will deploy and configure automatically a complete Skype for Business 2015 setup in a minimum of #3hr30min, a kind of onprem virtual lab, mainly for training and test purpose. 
 The Azure template will perform following tasks:
-- Create infrastructure resources (Network Components, Loadbalencers, VM's)
+- Create infrastructure resources (Network Components, Loadbalancers, VM's)
 - Perform instalation of VM extensions( DSC, script) these will include "windows feature" and software instalation.
 - Configuration and user creation are performed trough VM custum script extensions.
 
@@ -61,7 +61,7 @@ Cert folder will include your public certificates.
 
 ## Software Download
 + Skype for business [eval version](https://www.microsoft.com/en-gb/evalcenter/evaluate-skype-for-business-server) (rename with SfBServer2015.iso)
-+ Azure AD connect : https://www.microsoft.com/en-us/download/details.aspx?id=47594
++ Azure AD connect :Â https://www.microsoft.com/en-us/download/details.aspx?id=47594
 + Silverlight 64 bit : http://go.microsoft.com/fwlink/?LinkID=229321
 + Freeswitch : http://files.freeswitch.org/windows_installer/installer/x64/FreeSWITCH-1.6.15-x64-Release.msi
 + X-lite 64 bit : http://counterpath.s3.amazonaws.com/downloads/X-Lite_4.9.8_84253.exe
