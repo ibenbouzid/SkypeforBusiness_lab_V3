@@ -66,7 +66,7 @@ Cert folder will include your public certificates.
 + Freeswitch : http://files.freeswitch.org/windows_installer/installer/x64/FreeSWITCH-1.6.15-x64-Release.msi
 + X-lite 64 bit : http://counterpath.s3.amazonaws.com/downloads/X-Lite_4.9.8_84253.exe
 + Windows update : 
-	+ [KB2919355](https://www.microsoft.com/en-gb/download/details.aspx?id=42334;), 
+	+ [KB2919355](https://www.microsoft.com/en-gb/download/details.aspx?id=42334), 
 	+ [KB2919442](https://www.microsoft.com/en-gb/download/details.aspx?id=42153),
 	+ [KB2982006](http://thehotfixshare.net/board/index.php?s=574c0d28142eaf2951806f8976e28c29&autocom=downloads&req=download&code=confirm_download&id=19694) :
 
