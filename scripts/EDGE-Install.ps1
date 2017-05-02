@@ -184,8 +184,8 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 }  -ArgumentList $PSScriptRoot, $Share, $User, $sasToken,$DomainName, $CAComputerName, $SecureCertPassword , $PublicCertbool
 
-Disable-PSRemoting
-Disable-WSManCredSSP -role client
-Disable-WSManCredSSP -role server
+#Disable-PSRemoting
+#Disable-WSManCredSSP -role client
+#Disable-WSManCredSSP -role server
 
 Restart-Computer

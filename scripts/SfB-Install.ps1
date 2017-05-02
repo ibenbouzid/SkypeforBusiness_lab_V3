@@ -310,9 +310,9 @@ cd $workingDir
 .\Enable-CsUsers.ps1 -SipDomain $sipdomain
 
 } -ArgumentList $PSScriptRoot, $Share, $User, $sasToken, $EdgeName, $EdgeIntIp, $EdgeExtIp, $EdgePubIp
-Disable-PSRemoting
-Disable-WSManCredSSP -role client
-Disable-WSManCredSSP -role server
+#Disable-PSRemoting
+#Disable-WSManCredSSP -role client
+#Disable-WSManCredSSP -role server
 
 
 #Copy O365 Lab Scripts to user Desktop

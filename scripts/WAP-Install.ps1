@@ -243,7 +243,7 @@ Invoke-Command  -Credential $LocalCreds -Authentication CredSSP -ComputerName $e
 
 	
 
-Disable-PSRemoting
-Disable-WSManCredSSP -role client
-Disable-WSManCredSSP -role server
+#Disable-PSRemoting
+#Disable-WSManCredSSP -role client
+#Disable-WSManCredSSP -role server
 Restart-Computer
