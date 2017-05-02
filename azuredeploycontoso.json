@@ -38,7 +38,7 @@
     "STSPublicCertificate": true,
     "WAPPublicCertificate": true,
     "EdgePublicCertificate": false,
-    "CertificatePassword": "null",
+    "CertificatePassword": "nullpassword",
     "apiVersion": "2015-06-15",
     "_artifactsLocation": "https://raw.githubusercontent.com/ibenbouzid/SkypeforBusiness_lab_V3/master",
     "StorageAccountName": "[concat(resourceGroup().name, uniqueString(resourceGroup().id))]",
